@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>snowme34</title>
+
+<!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- css -->
+<link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/custom.css">
+<link rel="stylesheet" href="/css/pace.css">
+
+<!-- js -->
+
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery-2.1.3.min.js"></script>
+<script src="/js/modernizr.custom.js"></script>
+<script src="/js/pace.min.js"></script>
+<script src="/js/script.js"></script>
+
+
+<link rel="shortcut icon" href="/favicon.ico">
+
+</head>
+
+<body>
+<div class="container">
+    <header id="site-header">
+        <div class="row">
+            <div class="col-md-4 col-sm-5 col-xs-8">
+                <div class="logo">
+                    <h1><a href="/"><b>Snowme34&#39;s Blog</b></a></h1>
+                </div>
+            </div><!-- col-md-4 -->
+            <div class="col-md-8 col-sm-7 col-xs-4">
+                <nav class="main-nav" role="navigation">
+                    <div class="navbar-header">
+                        <button type="button" id="trigger-overlay" class="navbar-toggle">
+                            <span class="ion-navicon"></span>
+                        </button>
+                    </div>
+
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="cl-effect-11"><a href="/" data-hover="Home">Home</a></li>
+                        <li class="cl-effect-11"><a href="/about" data-hover="About">About</a></li>
+                        <li class="cl-effect-11"><a href="/contact" data-hover="Contact">Contact</a></li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+                </nav>
+                
+                <!-- search box -->
+                <!-- <div id="header-search-box">
+                    <a id="search-menu" href="#"><span id="search-icon" class="ion-ios-search-strong"></span></a>
+                    <div id="search-form" class="search-form">
+                        <form role="search" method="get" id="searchform" action="#">
+                            <input type="search" placeholder="搜索" required>
+                            <button type="submit"><span class="ion-ios-search-strong"></span></button>
+                        </form>
+                    </div>
+                </div> -->
+
+            </div><!-- col-md-8 -->
+        </div>
+    </header>
+</div>
+
+
+<div class="content-body">
+    <div class="container">
+        <div class="row">
+            <main class="col-md-8">
+                    <article class="post">
+        <header class="entry-header">
+            <h1 class="entry-title">rebuild-note</h1>
+            <div class="entry-meta">
+                <!-- <span class="post-category"><a href="#">分类名字</a></span> -->
+                <span class="post-date"><a href="#"><time class="entry-date">2018-03-24</time></a></span>
+                <span class="post-author"><a href="#">snowme34</a></span>
+            </div>
+        </header>
+        <div class="entry-content clearfix">
+            <h1 id="Rebuilding-my-website"><a href="#Rebuilding-my-website" class="headerlink" title="Rebuilding my website"></a>Rebuilding my website</h1><h2 id="Background-Story"><a href="#Background-Story" class="headerlink" title="Background Story"></a>Background Story</h2><p>This is a sad story. It has been a while since my last website (a <a href="https://wordpress.com/" target="_blank" rel="external">WordPress</a> run on VPS) “vanished”. I doubt it was due to misconfiguration of Debian’s crontab I used to auto refresh the ssl certificate or something like that. I think I will post something like the Nginx config of it later on my blog.</p>
+<p>Ever since then have I had little time or energy to rebuild it, or more precisely, to maintain it. It is very tempting to use the WordPress again since it is so easy to make it run and so popular and so easy to find plugins. But the thing is, running on a VPS means it depends on some unstable services. When the VPS provider reboots the server, it is sometimes required to manually reboot Nginx service (or reload ssl keys refreshed by the bot of <a href="https://letsencrypt.org/" target="_blank" rel="external">Let’s Encrypt</a>. Their bot was still beta at that time). And it is also very hard to maintain due to the cost of the VPS itself and other problems too.</p>
+<p>So I decided to make use of Github Pages. It looks like I need to start from the scratch again: to buy a new domain since the old one was ugly and hard to remember, to configure the DNS, to reconfigure Zoho emails (I had 10 different emails for my old domain to register on different websites), to choose the theme of the blog, to decide the structure of the whole website etc. (I tried to use <a href="https://readthedocs.org/" target="_blank" rel="external">Readthedocs</a> for my wiki page, the page for all of my pure notes, and struggled to “fix” the package requirements for different versions of python of their codes <del>sad face</del>)</p>
+<p>Long story short. Let’s dive into the main point of this post!</p>
+<h2 id="Process-of-setting-up-hexo"><a href="#Process-of-setting-up-hexo" class="headerlink" title="Process of setting up hexo"></a>Process of setting up hexo</h2><p>Note: the following notes was written as a comprehensive tutorial.</p>
+<h3 id="Setting-up-environment"><a href="#Setting-up-environment" class="headerlink" title="Setting up environment"></a>Setting up environment</h3><p>Prerequisites:</p>
+<ol>
+<li><p>Github account</p>
+<p>Go to <a href="https://github.com/" target="_blank" rel="external">Github</a> and sign up</p>
+</li>
+<li><p>Github Page repository</p>
+<p> At least one repository to store the generated website on Github is required. Just go to your Github home page and <a href="https://github.com/new" target="_blank" rel="external">create a new repository</a> following the instruction. You can either create it as a public or private repo. Other people cannot see the content of your private repo but since your Github page will be published you website will eventually be public.</p>
+<p> There is a little trick here. If you name your repo as “YOUR_GITHUB_USER_NAME.github.io”, then your Github Page will automatically be published with that URL. Please read the <a href="https://help.github.com/articles/using-a-custom-domain-with-github-pages/" target="_blank" rel="external">documentation</a> for more details.</p>
+</li>
+<li><p><a href="https://nodejs.org/en/" target="_blank" rel="external">npm</a></p>
+</li>
+<li><a href="https://hexo.io/docs/index.html" target="_blank" rel="external">hexo</a></li>
+</ol>
+<p>In brief, install npm, hexo and create a Github repo.</p>
+<p>That is almost all you need to host a website on Github for free! You don’t need to worry about SSL, don’t need to pay the fees for renting a server. So awesome thanks to Github!</p>
+<h3 id="Structure"><a href="#Structure" class="headerlink" title="Structure"></a>Structure</h3><p>Like I said before, previously I had different subdomains for different purposes. I had wiki, blog, me, doc, etc. And I used one simple page as the whole “site map” for all of them.</p>
+<p>Same thing again for me.</p>
+<p>Other choices may include:</p>
+<ul>
+<li>use one and only one website for the blog</li>
+<li>use hexo as a “show off” page to “show off” the frontend skills (something like a portfolio)</li>
+<li>use Github Pages as a website to host demo web applications</li>
+<li>and many many more!</li>
+</ul>
+<h3 id="Choosing-theme-for-hexo"><a href="#Choosing-theme-for-hexo" class="headerlink" title="Choosing theme for hexo"></a>Choosing theme for hexo</h3><p>Since I use hexo for most of my web sites, it’s crucial to have a pretty and fit theme. You can surely create your own theme too!</p>
+<p>Place for you to seek for <a href="https://hexo.io/themes/index.html" target="_blank" rel="external">hexo themes</a>.</p>
+<p>Potential blog theme:</p>
+<ol>
+<li><a href="https://github.com/yunfeihe/simple-black" target="_blank" rel="external">simple-black</a></li>
+<li><a href="https://github.com/zthxxx/hexo-theme-icarus" target="_blank" rel="external">icarus</a></li>
+</ol>
+<p>Potential wiki theme:</p>
+<ol>
+<li><a href="https://github.com/zalando-incubator/hexo-theme-doc" target="_blank" rel="external">doc</a></li>
+</ol>
+<p>Potential moe theme:</p>
+<ol>
+<li><a href="https://github.com/ZEROKISEKI/hexo-theme-gal" target="_blank" rel="external">gal</a></li>
+</ol>
+<p>Potential “show off” theme:</p>
+<ol>
+<li><a href="https://github.com/zchen9/hexo-theme-hollow" target="_blank" rel="external">hollow</a></li>
+</ol>
+<h3 id="Initialize-a-local-hexo-folder"><a href="#Initialize-a-local-hexo-folder" class="headerlink" title="Initialize a local hexo folder"></a>Initialize a local hexo folder</h3><p>Please refer to the <a href="https://hexo.io/docs/setup.html" target="_blank" rel="external">official hexo documentation</a> for further details.</p>
+<ol>
+<li><p>open terminal in your ideal directory</p>
+<p> For windows, for example, winkey + r and rum cmd. cd \d “path to directory”.</p>
+</li>
+<li><p>type the following command to generate the initial hexo folder</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo init</div></pre></td></tr></table></figure>
+</li>
+<li><p>customize _config.yml to meet personal need</p>
+<p>For example, change the name of the site, change the theme and so on.</p>
+</li>
+<li><p>config _config.yml to use git to publish the website</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="attr">deploy:</span></div><div class="line"><span class="attr">  type:</span> <span class="string">git</span></div><div class="line"><span class="attr">  repository:</span> <span class="attr">https://github.com/YOUR_GITHUB_USER_NAME/YOUR_REPO_FOR_THIS_SITE.git</span></div><div class="line"><span class="attr">  branch:</span> <span class="string">master</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>add a post for our website to have something to show</p>
+<p> Hexo will give provide us with a “hello world” post. Feel free to delete it.</p>
+</li>
+</ol>
+<h3 id="Register-a-domain"><a href="#Register-a-domain" class="headerlink" title="Register a domain"></a>Register a domain</h3><p>Compare different domain name service providers.<br>There is a cool website called <a href="https://www.domcomp.com/" target="_blank" rel="external">domcomp</a><br>Pay highly attention to the different prices of buying a new one and renewing an old one and transferring domain to another provider.<br>Some general tips: Search for coupons first. For instance, one can use “PRIVACYPLEASE” to have free privacy on name.com.<br>I don’t feel like posting my personal opinion about which one is better here, however.</p>
+<h3 id="Github-Page-domain-setting"><a href="#Github-Page-domain-setting" class="headerlink" title="Github Page domain setting"></a>Github Page domain setting</h3><p>Please read the official <a href="https://help.github.com/articles/using-a-custom-domain-with-github-pages/" target="_blank" rel="external">Github tutorial</a> for further details</p>
+<ol>
+<li>add customized subdomain to correspondent Github page settings</li>
+<li>change CNAME record of DNS provider</li>
+<li><p>don’t forget to add CNAME file to your hexo “source” folder or hexo will delete the CNAME config of Github Page. Or you could try to add the following line to the “deploy” of hexo config <a href="https://hexo.io/docs/deployment.html#Rsync" target="_blank" rel="external">link to document</a>: (note the grammar of yaml)</p>
+ <figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attr">delete:</span> <span class="literal">false</span></div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="Publish"><a href="#Publish" class="headerlink" title="Publish"></a>Publish</h3><ol>
+<li><p>generate the website</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo generate</div></pre></td></tr></table></figure>
+<p>or you can also use</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo g</div></pre></td></tr></table></figure>
+</li>
+<li><p>make sure you set up the git deploy config properly</p>
+</li>
+<li><p>deploy your website generated by hexo</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo deploy</div></pre></td></tr></table></figure>
+<p> or you can also use</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo d</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="Process-of-rebuild-the-site"><a href="#Process-of-rebuild-the-site" class="headerlink" title="Process of rebuild the site"></a>Process of rebuild the site</h2><p>It looks like we have some website running. But where are the contents?</p>
+<h3 id="Sign-up-for-a-image-host-to-hold-the-pictures"><a href="#Sign-up-for-a-image-host-to-hold-the-pictures" class="headerlink" title="Sign up for a image host to hold the pictures"></a>Sign up for a image host to hold the pictures</h3><p>I have no idea if this is necessary or not for Github Pages. For VPS, in order to have better speed to load the pictures and to save storage, it is generally preferred to not save the pictures directly on your own server but on an image host.</p>
+<p>You can try <a href="https://imgur.com" target="_blank" rel="external">imgur</a> and follow the instructions!</p>
+<h3 id="Re-upload-the-old-posts"><a href="#Re-upload-the-old-posts" class="headerlink" title="Re-upload the old posts"></a>Re-upload the old posts</h3><p>Edit and update old posts!</p>
+<h2 id="Reference-links"><a href="#Reference-links" class="headerlink" title="Reference links"></a>Reference links</h2><p>All the documentations mentioned above<br><a href="http://chuangzaoshi.com/operate" target="_blank" rel="external">http://chuangzaoshi.com/operate</a><br><a href="https://www.v2ex.com/t/331613" target="_blank" rel="external">https://www.v2ex.com/t/331613</a></p>
+
+        </div>
+    </article>
+
+<nav class="page-nav">
+  
+</nav>
+
+
+            </main>
+            <aside class="col-md-4">
+
+    <div class="widget widget-archives">
+        <h3 class="widget-title">Archives</h3>
+        <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">2018 March</a></li></ul>
+    </div>
+
+    <div class="widget widget-category">
+        <h3 class="widget-title">Category</h3>
+        <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/notes/">notes</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/notes/web-hosting/">web-hosting</a></li></ul></li></ul>
+    </div>
+
+    <div class="widget widget-tag-cloud">
+        <h3 class="widget-title">Tags</h3>
+        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shakespeare/">Shakespeare</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/instruction/">instruction</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/notes/">notes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/translation/">translation</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/">web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zh-cn/">zh-cn</a></li></ul>
+    </div>
+
+    <!-- <div class="rss">
+        <a href=""><span class="ion-social-rss-outline"></span> RSS 订阅</a>
+    </div> -->
+</aside>
+
+        </div>
+    </div>
+</div>
+
+<footer id="site-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <p class="copyright">snowme34</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Mobile Menu -->
+<div class="overlay overlay-hugeinc">
+    <button type="button" class="overlay-close"><span class="ion-ios-close-empty"></span></button>
+    <nav>
+        <ul>
+            <li><a href="/">首页</a></li>
+            <li><a href="/about">关于</a></li>
+            <li><a href="/contact">联系</a></li>
+        </ul>
+    </nav>
+</div>
+
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>
