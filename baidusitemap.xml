@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+
+    
+  <url>
+    <loc>https://blog.snowme34.com/2018/04/09/no-scary-git/</loc>
+    <lastmod>2018-04-10T06:17:15.249Z</lastmod>
+    <data>
+        <display>
+        <title>no-scary-git</title>
+        <pubTime>2018-04-10T05:31:43.000Z</pubTime>
+        
+        <tag>Tutorial</tag>
+         
+        <tag>Git</tag>
+         
+        <tag>Easy</tag>
+         
+         
+           
+             
+              <breadCrumb title="Notes" url="https://blog.snowme34.com/categories/Notes/"/>
+          
+             
+              <breadCrumb title="Programming Basis" url="https://blog.snowme34.com/categories/Notes/Programming-Basis/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://blog.snowme34.com/2018/03/24/rebuild-note/</loc>
+    <lastmod>2018-04-10T05:34:40.397Z</lastmod>
+    <data>
+        <display>
+        <title>rebuild-note</title>
+        <pubTime>2018-03-24T14:27:02.000Z</pubTime>
+        
+        <tag>Tutorial</tag>
+         
+        <tag>Web</tag>
+         
+        <tag>Notes</tag>
+         
+         
+           
+             
+              <breadCrumb title="Notes" url="https://blog.snowme34.com/categories/Notes/"/>
+          
+             
+              <breadCrumb title="Web-hosting" url="https://blog.snowme34.com/categories/Notes/Web-hosting/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://blog.snowme34.com/2018/03/21/Sonnet-18-zh-CN-translation/</loc>
+    <lastmod>2018-04-10T05:34:02.747Z</lastmod>
+    <data>
+        <display>
+        <title>Sonnet 18 zh-cn translation</title>
+        <pubTime>2018-03-22T06:49:40.000Z</pubTime>
+        
+        <tag>Translation</tag>
+         
+        <tag>Shakespeare</tag>
+         
+        <tag>Zh-cn</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://blog.snowme34.com/2018/03/22/advice/</loc>
+    <lastmod>2018-04-10T05:33:54.749Z</lastmod>
+    <data>
+        <display>
+        <title>password advice</title>
+        <pubTime>2018-03-22T07:07:03.000Z</pubTime>
+        
+        <tag>Zh-cn</tag>
+         
+        <tag>Notes</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+</urlset>
