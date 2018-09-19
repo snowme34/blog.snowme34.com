@@ -1,112 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
-
-    
-    
   <url>
     <loc>https://blog.snowme34.com/post/Sonnet-18-zh-CN-translation/</loc>
     <lastmod>2018-09-19T07:29:33.189Z</lastmod>
-    <data>
-        <display>
-        <title>Shakespeare Sonnet 18 Chinese Translation</title>
-        <pubTime>2018-03-22T06:49:40.000Z</pubTime>
-        
-        <tag>Shakespeare</tag>
-         
-        <tag>zh-CN</tag>
-         
-        <tag>Literature</tag>
-         
-        <tag>Original</tag>
-         
-         
-           
-             
-              <breadCrumb title="Literature" url="https://blog.snowme34.com/categories/Literature/"/>
-          
-             
-              <breadCrumb title="Translations" url="https://blog.snowme34.com/categories/Literature/Translations/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
+  </url>  <url>
     <loc>https://blog.snowme34.com/post/rebuild-note/</loc>
     <lastmod>2018-09-19T07:28:37.718Z</lastmod>
-    <data>
-        <display>
-        <title>Rebuilding My Website</title>
-        <pubTime>2018-03-24T14:27:02.000Z</pubTime>
-        
-        <tag>Tutorial</tag>
-         
-        <tag>Web-hosting</tag>
-         
-         
-           
-             
-              <breadCrumb title="Notes" url="https://blog.snowme34.com/categories/Notes/"/>
-          
-             
-              <breadCrumb title="Web-hosting" url="https://blog.snowme34.com/categories/Notes/Web-hosting/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
+  </url>  <url>
     <loc>https://blog.snowme34.com/post/no-scary-git/</loc>
     <lastmod>2018-09-19T07:28:29.620Z</lastmod>
-    <data>
-        <display>
-        <title>No Scary Git</title>
-        <pubTime>2018-04-10T05:31:43.000Z</pubTime>
-        
-        <tag>Tutorial</tag>
-         
-        <tag>Git</tag>
-         
-         
-           
-             
-              <breadCrumb title="Notes" url="https://blog.snowme34.com/categories/Notes/"/>
-          
-             
-              <breadCrumb title="Programming Basis" url="https://blog.snowme34.com/categories/Notes/Programming-Basis/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
+  </url>  <url>
     <loc>https://blog.snowme34.com/post/advice/</loc>
     <lastmod>2018-09-19T07:23:51.930Z</lastmod>
-    <data>
-        <display>
-        <title>Modest Informal Password Advice</title>
-        <pubTime>2018-03-22T07:00:00.000Z</pubTime>
-        
-        <tag>zh-CN</tag>
-         
-        <tag>Notes</tag>
-         
-         
-           
-             
-              <breadCrumb title="Notes" url="https://blog.snowme34.com/categories/Notes/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-    
-    
-    
-    
+  </url>
 </urlset>
