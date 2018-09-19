@@ -3,22 +3,31 @@
 
 
     
+    
   <url>
     <loc>https://blog.snowme34.com/post/Sonnet-18-zh-CN-translation/</loc>
-    <lastmod>2018-09-18T18:24:43.255Z</lastmod>
+    <lastmod>2018-09-19T07:29:33.189Z</lastmod>
     <data>
         <display>
-        <title>Sonnet 18 zh-cn translation</title>
+        <title>Shakespeare Sonnet 18 Chinese Translation</title>
         <pubTime>2018-03-22T06:49:40.000Z</pubTime>
         
-        <tag>Translation</tag>
-         
         <tag>Shakespeare</tag>
          
-        <tag>Zh-cn</tag>
+        <tag>zh-CN</tag>
+         
+        <tag>Literature</tag>
+         
+        <tag>Original</tag>
          
          
            
+             
+              <breadCrumb title="Literature" url="https://blog.snowme34.com/categories/Literature/"/>
+          
+             
+              <breadCrumb title="Translations" url="https://blog.snowme34.com/categories/Literature/Translations/"/>
+          
         </display>
     </data>
     </url>
@@ -26,17 +35,15 @@
     
   <url>
     <loc>https://blog.snowme34.com/post/rebuild-note/</loc>
-    <lastmod>2018-09-18T18:22:04.585Z</lastmod>
+    <lastmod>2018-09-19T07:28:37.718Z</lastmod>
     <data>
         <display>
-        <title>rebuild-note</title>
+        <title>Rebuilding My Website</title>
         <pubTime>2018-03-24T14:27:02.000Z</pubTime>
         
-        <tag>Notes</tag>
-         
-        <tag>Web</tag>
-         
         <tag>Tutorial</tag>
+         
+        <tag>Web-hosting</tag>
          
          
            
@@ -53,17 +60,15 @@
     
   <url>
     <loc>https://blog.snowme34.com/post/no-scary-git/</loc>
-    <lastmod>2018-09-18T18:21:49.789Z</lastmod>
+    <lastmod>2018-09-19T07:28:29.620Z</lastmod>
     <data>
         <display>
-        <title>no-scary-git</title>
+        <title>No Scary Git</title>
         <pubTime>2018-04-10T05:31:43.000Z</pubTime>
         
         <tag>Tutorial</tag>
          
         <tag>Git</tag>
-         
-        <tag>Easy</tag>
          
          
            
@@ -80,18 +85,21 @@
     
   <url>
     <loc>https://blog.snowme34.com/post/advice/</loc>
-    <lastmod>2018-09-18T18:21:45.179Z</lastmod>
+    <lastmod>2018-09-19T07:23:51.930Z</lastmod>
     <data>
         <display>
-        <title>password advice</title>
-        <pubTime>2018-03-22T07:07:03.000Z</pubTime>
+        <title>Modest Informal Password Advice</title>
+        <pubTime>2018-03-22T07:00:00.000Z</pubTime>
         
-        <tag>Zh-cn</tag>
+        <tag>zh-CN</tag>
          
         <tag>Notes</tag>
          
          
            
+             
+              <breadCrumb title="Notes" url="https://blog.snowme34.com/categories/Notes/"/>
+          
         </display>
     </data>
     </url>
