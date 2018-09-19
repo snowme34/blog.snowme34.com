@@ -1,1 +1,31 @@
-!function(){"use strict";var e=document.getElementById("header"),t=document.getElementById("article-toc"),n=document.getElementById("article-toc-top"),c=e.clientHeight;function o(){document.scrollingElement.scrollTop>c?t.classList.add("fixed"):t.classList.remove("fixed")}t&&(window.addEventListener("scroll",function(){window.requestAnimationFrame(o)}),o(),n.addEventListener("click",function(e){e.preventDefault(),document.scrollingElement.scrollTop=0}))}();
+(function() {
+  'use strict';
+
+  var header = document.getElementById('header');
+  var toc = document.getElementById('article-toc');
+  var tocTop = document.getElementById('article-toc-top');
+  var headerHeight = header.clientHeight;
+
+  if (!toc) return;
+
+  function updateSidebarPosition() {
+    var scrollTop = document.scrollingElement.scrollTop;
+
+    if (scrollTop > headerHeight) {
+      toc.classList.add('fixed');
+    } else {
+      toc.classList.remove('fixed');
+    }
+  }
+
+  window.addEventListener('scroll', function() {
+    window.requestAnimationFrame(updateSidebarPosition);
+  });
+
+  updateSidebarPosition();
+
+  tocTop.addEventListener('click', function(e) {
+    e.preventDefault();
+    document.scrollingElement.scrollTop = 0;
+  });
+}());
