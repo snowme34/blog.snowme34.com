@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.snowme34.com/"/>
-  <updated>2018-09-19T07:28:29.620Z</updated>
+  <updated>2018-09-20T04:44:21.145Z</updated>
   <id>https://blog.snowme34.com/</id>
   
   <author>
@@ -15,6 +15,43 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Re-Rebuilding My Website</title>
+    <link href="https://blog.snowme34.com/post/re-rebuild-note/"/>
+    <id>https://blog.snowme34.com/post/re-rebuild-note/</id>
+    <published>2018-09-20T04:40:01.000Z</published>
+    <updated>2018-09-20T04:44:21.145Z</updated>
+    
+    <content type="html"><![CDATA[<p>Now the thing works. But not working well.</p><p>This is a <strong>log-like</strong> post for what I have done<br>and plan to do for my website.</p><h1 id="goal"><a class="markdownIt-Anchor" href="#goal"></a> Goal</h1><p>Have a really working website<br>-with almost zero frontend knowledge 😄</p><h1 id="approach"><a class="markdownIt-Anchor" href="#approach"></a> Approach</h1><p>Make use of my limited frontend knowledge to read the<br>code of open source projects and build mine according<br>to the licenses.</p><p>Not build from scratch, in a word.</p><h1 id="analysis"><a class="markdownIt-Anchor" href="#analysis"></a> Analysis</h1><p>The domain is easy to get.</p><p>The server is also not hard. But it is too much for my<br>needs. After all, all I need is a simple website that<br>displays something at minimum cost. Therefore, the<br>static site, such as Github Pages, is the way to go.</p><h1 id="blog"><a class="markdownIt-Anchor" href="#blog"></a> Blog</h1><p>It seems that the most popular way to go is a static<br>blog hosted on Github Pages.</p><p>And I’m also most experienced with that, too. So, let’s<br>begin with creating a Hexo blog.</p><h2 id="ready-to-use-hexo-themes"><a class="markdownIt-Anchor" href="#ready-to-use-hexo-themes"></a> Ready-to-use Hexo themes</h2><p>The first intuition was to find some themes listed on the website of Hexo. Learn from others - that’s how one improves.</p><p>(I wrote this post on Sept 14th, 2018.<br>Plenty of new ones are likely to be<br>added to <a href="https://hexo.io/themes/index.html" target="_blank" rel="noopener">Hexo Themes</a>)</p><p>Here are the lists of some themes I found interesting while researching (links to demo):</p><p>Blog</p><ul><li><a href="https://blog.oniuo.com/" target="_blank" rel="noopener">Inside</a></li><li><a href="https://blog.xaoxuu.com/" target="_blank" rel="noopener">Material X</a></li><li><a href="https://go.kieran.top/" target="_blank" rel="noopener">TKL</a></li><li><a href="https://notes.iissnan.com/" target="_blank" rel="noopener">NexT.Pisces</a></li><li><a href="https://yanm1ng.github.io/" target="_blank" rel="noopener">Vexo</a></li><li><a href="https://geekplux.com/" target="_blank" rel="noopener">geekplus</a></li><li><a href="https://blog.cofess.com/" target="_blank" rel="noopener">Pure</a></li><li><a href="http://sora3.coding.me/" target="_blank" rel="noopener">gal</a></li></ul><p>Portfolio</p><ul><li><a href="https://sharvaridesai.github.io/hexo-theme-edinburgh-demo/" target="_blank" rel="noopener">edinburgh</a></li><li><a href="https://sharvaridesai.gitlab.io/hexo-theme-standrews/" target="_blank" rel="noopener">standrews</a></li></ul><p>Wiki</p><ul><li><a href="https://wiki.zthxxx.me/" target="_blank" rel="noopener">Wikitten</a></li></ul><p>Doc</p><ul><li><a href="https://zalando-incubator.github.io/hexo-theme-doc/" target="_blank" rel="noopener">Doc</a></li></ul><p>Themes with some good details</p><ul><li><a href="http://ochukai.me/" target="_blank" rel="noopener">Ochuunn</a><ul><li>brilliant front page</li></ul></li><li><a href="https://huaji8.top/" target="_blank" rel="noopener">one</a><ul><li>intriguing interactive element</li></ul></li><li><a href="https://hexo-theme-random.herokuapp.com/" target="_blank" rel="noopener">random</a><ul><li>brilliant front page</li></ul></li></ul><p>The themes I decided to use (links to repo)</p><ul><li><a href="https://github.com/cofess/hexo-theme-pure" target="_blank" rel="noopener">pure</a></li><li><a href="https://github.com/Ruffianjiang/hexo-theme-dawn" target="_blank" rel="noopener">dawn</a></li><li><a href="https://github.com/geekplux/hexo-theme-typing" target="_blank" rel="noopener">typing</a></li></ul><h2 id="set-up-the-blog"><a class="markdownIt-Anchor" href="#set-up-the-blog"></a> Set up the blog</h2><p>Add themes as submodule of local git…done.</p><p>Register a disqus account…done.</p><p>Create a favicon…done.</p><p>Change the config…working.</p><p>Modify the source code…working.</p><ul><li>code block</li><li>inner bar</li><li>side bar for post</li><li>font</li><li>icon</li><li>bottom bar</li><li>…</li></ul><h2 id="details-detailed-details"><a class="markdownIt-Anchor" href="#details-detailed-details"></a> Details (detailed details)</h2><p>The first thing I decided to do was to change<br>the appearance of the <strong>code blocks</strong>. I am not a<br>big fan of any additional decoration for it.</p><p>So I dived into the source code and looked for<br>any codes related to <strong>“highlight”</strong>.<br>The first thing I noticed was the partial<br><strong>styl</strong> files called “highlight”. I tried<br>to edit it but nothing happened.</p><p>I know <strong>Stylus</strong> is a dynamic stylesheet preprocessor language.<br>Maybe I need to think about how Hexo compiles it?<br>After trying to delete some, nothing happened to<br>the website displayed.</p><p>Then I noticed, the only file that it needs is the<br><strong>style.css</strong> alone. By targeting the <strong>highlight</strong><br>class, succeeded to remove the extra decorations.</p><p>(I was thinking about the meaning of the Stylus<br>files. But I gave them up considering all the cost,<br>such as the need to import normalize.css, which<br>would slow down the speed of <strong>such a small site</strong><br>of mine. And the most important problem is, I have<br>no deep knowledge about things like Bootstrap)</p><p>But the one left is… <strong>not beautiful</strong>.</p><p>The next step I took was to revisit the list<br>of the Hexo blogs with theme source codes. It<br>seems that previously, I focused too much on the<br>overall “feeling”. Some of them, thou having<br>appealing effects, are exceedingly bad at details.<br>One blog has light theme but dark code block.<br>The codes found on another one is almost<br>impossible to read due to the similar colors.</p><p>Those were not good.</p><p>From the ones I leafed through, the design of<br><a href="https://github.com/xaoxuu/hexo-theme-material-x" target="_blank" rel="noopener">material-x</a><br>stood out. Reading its source code, I created a<br>not-so-bad highlight block for my blog.</p><p>Next modification I did was to remove the <strong>sticky bar</strong>.<br>For some unknown reason, while the sticky bar of the<br>original blog would disappear as the user scrolls down,<br>the one of mine never changed. It was always there and<br>being distracting. This removal was not hard that hard.</p><p>One of the most heated issues of the original<br>theme was the its line height. I have no<br>idea why the author chose to make the lines<br>“crowded”. I believe he had his reasons. But,<br>unfortunately, I am not clever enough to figure<br>out them on my own. So I decided to change both<br>the <strong>font</strong> and the <strong>line height</strong>.</p><p>Choices are always hard to make when they are many.<br>I searched again and again and even read about<br>the difference between serif and sans serif (like<br>the history and successful applications by big<br>companies). I went to some online Wordpress theme<br>stores to see what fonts they are using. But<br>eventually, I just gave up and chose <strong>Open Sans</strong><br>instead.</p><p>The hardest one had not come yet. When I tried to<br>add my Instagram social link, I realized that<br>the original theme did not support its <strong>icon</strong>.</p><p>The icons in graphic design was a mystery to me since<br>I saw no image files in the code. How could the website<br>just draw a shape? After searching around, I came to<br>know about the difference between <strong>SVG</strong> and <strong>iconfonts</strong>.</p><p>“Well, the svg sprite looks cool! I wanna use that!”</p><p>I managed to find the SVG sprite from the original theme.<br>And hard-coding few additional SVG icons into it did not<br>seem very hard.</p><p>But, the theme here used the “font-class” way to do it.<br>To have additional icons, I need a way to change the ttf<br>files and maintained the original unicode. Or I need to<br>rewrite all the related codes and functions.</p><p>Changing all the codes was not impossible but<br>too much to do right now. And I also need to<br>debug the SVG sprite on my own without any related<br>frontend knowledge. The difficulty was unpredictable.<br>Therefore, the “font-class” way still seemed good to me.</p><p>But now I need a way to “unpack and repack” the ttf icons.<br>I tried to skip the “unpack” step by searching around to see<br>if I could find the original icons. But it was so hard to<br>keep the “names” of each icon identical in this way.<br>Should I just delete all the unnecessary icons? Could I<br>use some software to manage them?</p><p>It was not easy especially when I am new. After messing<br>around for quite a while, I suddenly found out<br>the online app of <a href="https://icomoon.io/app/#/select" target="_blank" rel="noopener">icomoon</a><br>could load the SVG sprite and regenerate the font files<br>I needed. I doubted if it was so common and obvious that<br>no one would ever have written a tutorial for me to learn<br>this information. And it could keep all the “names” of the<br>icons, too!</p><p>I knew it was not a graceful way to do it. But it worked<br>at least. It took some time for me to make the icon truly<br>work. But the hard part was over, although I still spent<br>a long time figuring out how the side-bars worked.</p><p>The rest of the modification is all about small things,<br>like fixing a logical statement, adding variables and so<br>forth. I have written too much for a post so let’s stop<br>here. If you are curious, you can read the “<a href="http://Readme.md" target="_blank" rel="noopener">Readme.md</a>” of<br>the modified theme under my Github account.</p><h1 id="home"><a class="markdownIt-Anchor" href="#home"></a> Home</h1><p>I feel like having a home page, clean and<br>compelling, to serve as the “www” host of<br>my domain, similar to the one of<br><a href="https://geekplux.com/" target="_blank" rel="noopener">geekplus.com</a><br>and my old home page.</p><h2 id="reference"><a class="markdownIt-Anchor" href="#reference"></a> Reference</h2><ul><li>my old website (local source code)</li><li><a href="https://xrlin.github.io/" target="_blank" rel="noopener">xrlin</a></li><li><a href="http://ochukai.me/" target="_blank" rel="noopener">ochukai.me</a></li><li><a href="https://geekplux.com/" target="_blank" rel="noopener">geekplus.com</a></li></ul><p>Now I need a break (´._.`).</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Now the thing works. But not working well.&lt;/p&gt;
+&lt;p&gt;This is a &lt;strong&gt;log-like&lt;/strong&gt; post for what I have done&lt;br&gt;
+and plan to do for my
+      
+    
+    </summary>
+    
+      <category term="Notes" scheme="https://blog.snowme34.com/categories/Notes/"/>
+    
+      <category term="Web-hosting" scheme="https://blog.snowme34.com/categories/Notes/Web-hosting/"/>
+    
+    
+      <category term="Tutorial" scheme="https://blog.snowme34.com/tags/Tutorial/"/>
+    
+      <category term="Web-hosting" scheme="https://blog.snowme34.com/tags/Web-hosting/"/>
+    
+      <category term="Log" scheme="https://blog.snowme34.com/tags/Log/"/>
+    
+      <category term="Diary" scheme="https://blog.snowme34.com/tags/Diary/"/>
+    
+      <category term="Mess" scheme="https://blog.snowme34.com/tags/Mess/"/>
+    
+  </entry>
   
   <entry>
     <title>No Scary Git</title>
@@ -132,9 +169,9 @@
       <category term="Translations" scheme="https://blog.snowme34.com/categories/Literature/Translations/"/>
     
     
-      <category term="zh-CN" scheme="https://blog.snowme34.com/tags/zh-CN/"/>
-    
       <category term="Shakespeare" scheme="https://blog.snowme34.com/tags/Shakespeare/"/>
+    
+      <category term="zh-CN" scheme="https://blog.snowme34.com/tags/zh-CN/"/>
     
       <category term="Literature" scheme="https://blog.snowme34.com/tags/Literature/"/>
     
