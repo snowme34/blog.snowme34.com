@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.snowme34.com/"/>
-  <updated>2018-09-20T04:44:21.145Z</updated>
+  <updated>2018-09-26T00:51:16.048Z</updated>
   <id>https://blog.snowme34.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Backup Evernote Database File using Cloud Application and rsync of WSL (Windows Subsystem for Linux) with Minimum I/O Write</title>
+    <link href="https://blog.snowme34.com/post/backup-evernote-db-rsync-wsl/"/>
+    <id>https://blog.snowme34.com/post/backup-evernote-db-rsync-wsl/</id>
+    <published>2018-09-26T00:36:10.000Z</published>
+    <updated>2018-09-26T00:51:16.048Z</updated>
+    
+    <content type="html"><![CDATA[<p>It was the second time for me to <a href="https://news.ycombinator.com/item?id=9090135" target="_blank" rel="noopener">lose a note in Evernote</a>.The first one was due to a sync error. It was nothing serious but unnerving.But I lost the second one merely after I locked my phone whilebeing prompted to type the password for some encrypted text in that note.And the problem is, I have almost no direct way to know if a note is missingconsidering the size of my Evernote database.</p><p>So, after searching around, I decided that, since Evernote isstill the best app for my note taking (it has unlimited cloud storage,support for most platforms, bots for different apps etc.) andthere is no 100% secure data storage in this world, I need tobackup the database file on my own.</p><h1 id="why-backup"><a class="markdownIt-Anchor" href="#why-backup"></a> Why Backup</h1><p>To prevent data loss, the ultimate solution is backup, not switching application.</p><h1 id="why-backup-exb-file-when-evernote-syncs-it-automatically"><a class="markdownIt-Anchor" href="#why-backup-exb-file-when-evernote-syncs-it-automatically"></a> Why Backup .exb File When Evernote Syncs it automatically</h1><p>A note can be lost during and after synchronization. And if the damaged note or databasewere synchronized, data loss is unavoidable.</p><h1 id="why-rsync-and-wsl"><a class="markdownIt-Anchor" href="#why-rsync-and-wsl"></a> Why rsync and WSL</h1><p>It is tedious to manually copy and paste the database files to otherlocations (and track the version history). Storing the db directly insidethe local cloud storage sync folder is also not feasible for me since those applicationsneed to scan my 3.14 GB .exb file each time when I make any tiny changes to my notes.</p><p>I need a scheduled job with minimum disk usage (reading and writing).The reading part is hard to get rid of. So the focus is I/O write usage.I need a <strong>binary</strong> incremental backup. <code>rsync</code> is the best candidateI know so far but it does not have native supportfor Windows.</p><h1 id="my-solution"><a class="markdownIt-Anchor" href="#my-solution"></a> My Solution</h1><p>Since I need my cloud storage application to run in the background all the time, itis not viable for me to schedule that application to sync. The workaround is touse scheduled <code>rsync</code> to copy the .exb file to the local sync folder.</p><p><code>rsync</code> is able to do binary incremental copy, keeping the write usage at minimum.And the sync application only reads the local file as scheduled(my specific application, Dropbox, can binary incremental sync, too). Unless there isa way to directly binary incremental copy to the cloud as scheduled while theother parts are not affected, this solution only needs 2 full scans and verylittle write + upload to work.</p><p>(I know <code>rclone</code> but it <a href="https://rclone.org/faq/#why-doesn-t-rclone-support-partial-transfers-binary-diffs-like-rsync" target="_blank" rel="noopener">does not support binary incremental upload</a>)</p><h1 id="procedure"><a class="markdownIt-Anchor" href="#procedure"></a> Procedure</h1><h2 id="preparation"><a class="markdownIt-Anchor" href="#preparation"></a> Preparation</h2><p>If not installed yet, install cloud storage sync clients, WSL for Windows,<code>cron</code> and <code>rsync</code> based on the Linux distro installed.</p><h2 id="decide-the-rsync-command"><a class="markdownIt-Anchor" href="#decide-the-rsync-command"></a> Decide the <code>rsync</code> Command</h2><p>To learn more about cron, use <code>man cron</code> and <code>man crontab</code> or search online.</p><p>Please at least read the <code>rsync --help</code> and decide which options are preferred.The following command is the one I use.</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rsync -u -t -av -n /mnt/c/Evernote/Databases/myName.exb /mnt/c/Dropbox/EvernoteDB/myName.exb</span><br></pre></td></tr></table></figure><p>The <code>-n</code> flag enables <strong>dry-run</strong>. <strong>Remove it</strong> after everything is confirmed to be correct by running this commanddirectly (and see the result).</p><h2 id="create-crontab-job"><a class="markdownIt-Anchor" href="#create-crontab-job"></a> Create crontab Job</h2><p>Log in as the user you want to run the job (note the privileges) and edit their crontab:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crontab -e</span><br></pre></td></tr></table></figure><p>Using the editor chosen, add this line:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">22 22 */2 * * rsync -u -t -av /mnt/c/Evernote/Databases/myName.exb /mnt/c/Dropbox/EvernoteDB/myName.exb &gt; /dev/null</span><br></pre></td></tr></table></figure><p>This is my config. It will run the command every 2 days at 22:22 (10:22 pm) and thus backup my Evernote database every 2 days.</p><p>If you want to learn more about crontab job, feel free to search on your own.</p><p>If you want, you can use the snapshot feature of rsync. But since Dropbox has pretty good version history, I did not include that.</p><p>(Since a note might be found missing after a long time, I highly recommendmanually adding backups for longer period, Like a full backup for each half year)</p><h2 id="make-the-daemon-start-at-windows-boot"><a class="markdownIt-Anchor" href="#make-the-daemon-start-at-windows-boot"></a> Make the Daemon start at Windows Boot</h2><p>The last step is to make sure the cron daemon runs in background when Windows boots.It can be achieved by making bash.exe/wsl.exe a service and so on.</p><p>The solution I chose was to create a shortcut containing a start command in the <code>shell:startup</code> folder.Feel free to have your own choices and search around.</p><p>First, make sure the start command can be run without root privilege, unless you want totype in your sudo password every time you boot Windows.</p><p>Open sudo config file:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo visudo</span><br></pre></td></tr></table></figure><p>Add the following line:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%sudo ALL=NOPASSWD: /etc/init.d/cron start</span><br></pre></td></tr></table></figure><p>Save and quit and fix any problem if prompted.</p><p>Next, type <code>shell:startup</code> in the Run and explorer will open the startup folder.</p><p>Create a shortcut to wsl.exe and edit the properties as following:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\Windows\System32\wsl.exe sudo /etc/init.d/cron start</span><br></pre></td></tr></table></figure><blockquote class="imgur-embed-pub" lang="en" data-id="a/9TmBweC"><a href="//imgur.com/9TmBweC"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script><p>And it should work unless the developers change how wsl works in the future.</p><h2 id="check-if-cron-service-started-properly"><a class="markdownIt-Anchor" href="#check-if-cron-service-started-properly"></a> Check If cron Service Started Properly</h2><p>If you are worrying about cron service, here is a way to test it.</p><p>Create a test job in crontab. For example:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">35 * * * * echo &quot;test&quot; &gt;&gt; /home/MY_USER/test</span><br></pre></td></tr></table></figure><p>It will append “test” to a file in that path for every hour at 35.</p><p>First wait for the job to run first time and check the file to see result.</p><p>Now manually terminate the cron service and reboot Windows to see if it works.</p><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wsl sudo /etc/init.d/cron stop</span><br></pre></td></tr></table></figure><p>After reboot, check task manager to see if there is a process called <code>cron</code> running.</p><p>Wait for the to run second time and check the result.</p><p>The command above is only an example. You can change it however you like.</p><h1 id="conclusion"><a class="markdownIt-Anchor" href="#conclusion"></a> Conclusion</h1><p>Until now, it should be clear that what I did is only a little trick.But it shows how Unix commands can make Windows easier to use with WSL.</p><h1 id="reference"><a class="markdownIt-Anchor" href="#reference"></a> Reference</h1><ul><li><a href="https://github.com/troytse/wsl-autostart" target="_blank" rel="noopener">wsl-autostart</a></li><li><a href="https://superuser.com/questions/1112007/how-to-run-ubuntu-service-on-windows-at-startup" target="_blank" rel="noopener">How to run Ubuntu service on Windows (at startup)?</a></li><li><a href="https://www.cyberciti.biz/faq/how-do-i-add-jobs-to-cron-under-linux-or-unix-oses/" target="_blank" rel="noopener">How To Add Jobs To cron Under Linux or UNIX</a></li><li><a href="https://serverfault.com/questions/878887/rsync-server-using-windows-subsystem-for-linux" target="_blank" rel="noopener">rsync server using Windows Subsystem for Linux</a></li><li><a href="https://www.cyberciti.biz/faq/howto-linux-unix-start-restart-cron/" target="_blank" rel="noopener">Linux Start Restart and Stop The Cron or Crond Service</a></li><li><a href="https://github.com/Microsoft/WSL/issues/511" target="_blank" rel="noopener">How to auto start service</a></li><li>man page of each command</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;It was the second time for me to &lt;a href=&quot;https://news.ycombinator.com/item?id=9090135&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;lose a note in Eve
+      
+    
+    </summary>
+    
+      <category term="Notes" scheme="https://blog.snowme34.com/categories/Notes/"/>
+    
+    
+      <category term="Trick" scheme="https://blog.snowme34.com/tags/Trick/"/>
+    
+      <category term="Tutorial" scheme="https://blog.snowme34.com/tags/Tutorial/"/>
+    
+  </entry>
   
   <entry>
     <title>Re-Rebuilding My Website</title>
@@ -41,9 +68,9 @@ and plan to do for my web
       <category term="Web-hosting" scheme="https://blog.snowme34.com/categories/Notes/Web-hosting/"/>
     
     
-      <category term="Web-hosting" scheme="https://blog.snowme34.com/tags/Web-hosting/"/>
-    
       <category term="Tutorial" scheme="https://blog.snowme34.com/tags/Tutorial/"/>
+    
+      <category term="Web-hosting" scheme="https://blog.snowme34.com/tags/Web-hosting/"/>
     
       <category term="Log" scheme="https://blog.snowme34.com/tags/Log/"/>
     
@@ -107,9 +134,9 @@ and plan to do for my web
       <category term="Web-hosting" scheme="https://blog.snowme34.com/categories/Notes/Web-hosting/"/>
     
     
-      <category term="Web-hosting" scheme="https://blog.snowme34.com/tags/Web-hosting/"/>
-    
       <category term="Tutorial" scheme="https://blog.snowme34.com/tags/Tutorial/"/>
+    
+      <category term="Web-hosting" scheme="https://blog.snowme34.com/tags/Web-hosting/"/>
     
   </entry>
   

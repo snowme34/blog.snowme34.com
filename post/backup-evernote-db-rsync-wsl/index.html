@@ -17,22 +17,22 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>Rebuilding My Website | Blog | Snowme34</title>
-  <meta name="description" content="Background Story This is a sad story. It has been a while since my last website (a WordPress run on VPS) “vanished”. I doubt it was due to misconfiguration of Debian’s crontab I used to auto refresh">
-<meta name="keywords" content="Tutorial,Web-hosting">
+  <title>Backup Evernote Database File using Cloud Application and rsync of WSL (Windows Subsystem for Linux) with Minimum I/O Write | Blog | Snowme34</title>
+  <meta name="description" content="It was the second time for me to lose a note in Evernote. The first one was due to a sync error. It was nothing serious but unnerving. But I lost the second one merely after I locked my phone while be">
+<meta name="keywords" content="Trick,Tutorial">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Rebuilding My Website">
-<meta property="og:url" content="https://blog.snowme34.com/post/rebuild-note/index.html">
+<meta property="og:title" content="Backup Evernote Database File using Cloud Application and rsync of WSL (Windows Subsystem for Linux) with Minimum I&#x2F;O Write">
+<meta property="og:url" content="https://blog.snowme34.com/post/backup-evernote-db-rsync-wsl/index.html">
 <meta property="og:site_name" content="Blog | Snowme34">
-<meta property="og:description" content="Background Story This is a sad story. It has been a while since my last website (a WordPress run on VPS) “vanished”. I doubt it was due to misconfiguration of Debian’s crontab I used to auto refresh">
+<meta property="og:description" content="It was the second time for me to lose a note in Evernote. The first one was due to a sync error. It was nothing serious but unnerving. But I lost the second one merely after I locked my phone while be">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-09-19T07:28:37.718Z">
+<meta property="og:updated_time" content="2018-09-26T00:51:16.048Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Rebuilding My Website">
-<meta name="twitter:description" content="Background Story This is a sad story. It has been a while since my last website (a WordPress run on VPS) “vanished”. I doubt it was due to misconfiguration of Debian’s crontab I used to auto refresh">
+<meta name="twitter:title" content="Backup Evernote Database File using Cloud Application and rsync of WSL (Windows Subsystem for Linux) with Minimum I&#x2F;O Write">
+<meta name="twitter:description" content="It was the second time for me to lose a note in Evernote. The first one was due to a sync error. It was nothing serious but unnerving. But I lost the second one merely after I locked my phone while be">
 <meta name="twitter:creator" content="@snowme34">
   <!-- Canonical links -->
-  <link rel="canonical" href="https://blog.snowme34.com/post/rebuild-note/index.html">
+  <link rel="canonical" href="https://blog.snowme34.com/post/backup-evernote-db-rsync-wsl/index.html">
   
     <link rel="alternate" href="/atom.xml" title="Blog | Snowme34" type="application/atom+xml">
   
@@ -336,21 +336,21 @@
   <div class="slimContent">
     <nav id="toc" class="article-toc">
       <h3 class="toc-title">Catalogue</h3>
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#background-story"><span class="toc-number">1.</span> <span class="toc-text"> Background Story</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#process-of-setting-up-hexo"><span class="toc-number">2.</span> <span class="toc-text"> Process of setting up hexo</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#setting-up-environment"><span class="toc-number">2.1.</span> <span class="toc-text"> Setting up environment</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#structure"><span class="toc-number">2.2.</span> <span class="toc-text"> Structure</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#choosing-theme-for-hexo"><span class="toc-number">2.3.</span> <span class="toc-text"> Choosing theme for hexo</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#initialize-a-local-hexo-folder"><span class="toc-number">2.4.</span> <span class="toc-text"> Initialize a local hexo folder</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#register-a-domain"><span class="toc-number">2.5.</span> <span class="toc-text"> Register a domain</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#github-page-domain-setting"><span class="toc-number">2.6.</span> <span class="toc-text"> Github Page domain setting</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#publish"><span class="toc-number">2.7.</span> <span class="toc-text"> Publish</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#process-of-rebuild-the-site"><span class="toc-number">3.</span> <span class="toc-text"> Process of rebuild the site</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#sign-up-for-a-image-host-to-hold-the-pictures"><span class="toc-number">3.1.</span> <span class="toc-text"> Sign up for a image host to hold the pictures</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#re-upload-the-old-posts"><span class="toc-number">3.2.</span> <span class="toc-text"> Re-upload the old posts</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#reference-links"><span class="toc-number">4.</span> <span class="toc-text"> Reference links</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#why-backup"><span class="toc-number">1.</span> <span class="toc-text"> Why Backup</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#why-backup-exb-file-when-evernote-syncs-it-automatically"><span class="toc-number">2.</span> <span class="toc-text"> Why Backup .exb File When Evernote Syncs it automatically</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#why-rsync-and-wsl"><span class="toc-number">3.</span> <span class="toc-text"> Why rsync and WSL</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#my-solution"><span class="toc-number">4.</span> <span class="toc-text"> My Solution</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#procedure"><span class="toc-number">5.</span> <span class="toc-text"> Procedure</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#preparation"><span class="toc-number">5.1.</span> <span class="toc-text"> Preparation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#decide-the-rsync-command"><span class="toc-number">5.2.</span> <span class="toc-text"> Decide the rsync Command</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#create-crontab-job"><span class="toc-number">5.3.</span> <span class="toc-text"> Create crontab Job</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#make-the-daemon-start-at-windows-boot"><span class="toc-number">5.4.</span> <span class="toc-text"> Make the Daemon start at Windows Boot</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#check-if-cron-service-started-properly"><span class="toc-number">5.5.</span> <span class="toc-text"> Check If cron Service Started Properly</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#conclusion"><span class="toc-number">6.</span> <span class="toc-text"> Conclusion</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#reference"><span class="toc-number">7.</span> <span class="toc-text"> Reference</span></a></li></ol>
     </nav>
   </div>
 </aside>
 
 <main class="main" role="main">
   <div class="content">
-  <article id="post-rebuild-note" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+  <article id="post-backup-evernote-db-rsync-wsl" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
     
     <div class="article-header">
       
         
   
     <h1 class="article-title" itemprop="name">
-      Rebuilding My Website
+      Backup Evernote Database File using Cloud Application and rsync of WSL (Windows Subsystem for Linux) with Minimum I/O Write
     </h1>
   
 
@@ -359,27 +359,27 @@
         
 <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/post/rebuild-note/" class="article-date">
-	  <time datetime="2018-03-24T14:27:02.000Z" itemprop="datePublished">03/24/2018</time>
+	<a href="/post/backup-evernote-db-rsync-wsl/" class="article-date">
+	  <time datetime="2018-09-26T00:36:10.000Z" itemprop="datePublished">09/25/2018</time>
 	</a>
 </span>
 
         
   <span class="article-category">
     <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/categories/Notes/">Notes</a>/<a class="article-category-link" href="/categories/Notes/Web-hosting/">Web-hosting</a>
+    <a class="article-category-link" href="/categories/Notes/">Notes</a>
   </span>
 
         
   <span class="article-tag">
     <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/tags/Tutorial/">Tutorial</a>, <a class="article-tag-link" href="/tags/Web-hosting/">Web-hosting</a>
+	<a class="article-tag-link" href="/tags/Trick/">Trick</a>, <a class="article-tag-link" href="/tags/Tutorial/">Tutorial</a>
   </span>
 
 
         
 
-        <!-- <span class="post-comment"><i class="icon icon-comment"></i> <a href="/post/rebuild-note/#comments" class="article-comment-link">Comments</a></span> -->
+        <!-- <span class="post-comment"><i class="icon icon-comment"></i> <a href="/post/backup-evernote-db-rsync-wsl/#comments" class="article-comment-link">Comments</a></span> -->
         
 	
 	
@@ -390,142 +390,124 @@
     </div>
     <div class="article-entry markdown-body" itemprop="articleBody">
       
-        <h1 id="background-story"><a class="markdownIt-Anchor" href="#background-story"></a> Background Story</h1>
-<p>This is a sad story. It has been a while since my last website (a <a href="https://wordpress.com/" target="_blank" rel="noopener">WordPress</a> run on VPS) “vanished”. I doubt it was due to misconfiguration of Debian’s crontab I used to auto refresh the ssl certificate or something like that. I think I will post something like the Nginx config of it later on my blog.</p>
-<p>Ever since then have I had little time or energy to rebuild it, or more precisely, to maintain it. It is very tempting to use the WordPress again since it is so easy to make it run and so popular and so easy to find plugins. But the thing is, running on a VPS means it depends on some unstable services. When the VPS provider reboots the server, it is sometimes required to manually reboot Nginx service (or reload ssl keys refreshed by the bot of <a href="https://letsencrypt.org/" target="_blank" rel="noopener">Let’s Encrypt</a>. Their bot was still beta at that time). And it is also very hard to maintain due to the cost of the VPS itself and other problems too.</p>
-<p>So I decided to make use of Github Pages. It looks like I need to start from the scratch again: to buy a new domain since the old one was ugly and hard to remember, to configure the DNS, to reconfigure Zoho emails (I had 10 different emails for my old domain to register on different websites), to choose the theme of the blog, to decide the structure of the whole website etc. (I tried to use <a href="https://readthedocs.org/" target="_blank" rel="noopener">Readthedocs</a> for my wiki page, the page for all of my pure notes, and struggled to “fix” the package requirements for different versions of python of their codes <s>sad face</s>)</p>
-<p>Long story short. Let’s dive into the main point of this post!</p>
-<h1 id="process-of-setting-up-hexo"><a class="markdownIt-Anchor" href="#process-of-setting-up-hexo"></a> Process of setting up hexo</h1>
-<p>Note: the following notes was written as a comprehensive tutorial.</p>
-<h2 id="setting-up-environment"><a class="markdownIt-Anchor" href="#setting-up-environment"></a> Setting up environment</h2>
-<p>Prerequisites:</p>
-<ol>
-<li>
-<p>Github account</p>
-<p>Go to <a href="https://github.com/" target="_blank" rel="noopener">Github</a> and sign up</p>
-</li>
-<li>
-<p>Github Page repository</p>
-<p>At least one repository to store the generated website on Github is required. Just go to your Github home page and <a href="https://github.com/new" target="_blank" rel="noopener">create a new repository</a> following the instruction. You can either create it as a public or private repo. Other people cannot see the content of your private repo but since your Github page will be published you website will eventually be public.</p>
-<p>There is a little trick here. If you name your repo as “YOUR_GITHUB_USER_NAME.github.io”, then your Github Page will automatically be published with that URL. Please read the <a href="https://help.github.com/articles/using-a-custom-domain-with-github-pages/" target="_blank" rel="noopener">documentation</a> for more details.</p>
-</li>
-<li>
-<p><a href="https://nodejs.org/en/" target="_blank" rel="noopener">npm</a></p>
-</li>
-<li>
-<p><a href="https://hexo.io/docs/index.html" target="_blank" rel="noopener">hexo</a></p>
-</li>
-</ol>
-<p>In brief, install npm, hexo and create a Github repo.</p>
-<p>That is almost all you need to host a website on Github for free! You don’t need to worry about SSL, don’t need to pay the fees for renting a server. So awesome thanks to Github!</p>
-<h2 id="structure"><a class="markdownIt-Anchor" href="#structure"></a> Structure</h2>
-<p>Like I said before, previously I had different subdomains for different purposes. I had wiki, blog, me, doc, etc. And I used one simple page as the whole “site map” for all of them.</p>
-<p>Same thing again for me.</p>
-<p>Other choices may include:</p>
+        <p>It was the second time for me to <a href="https://news.ycombinator.com/item?id=9090135" target="_blank" rel="noopener">lose a note in Evernote</a>.
+The first one was due to a sync error. It was nothing serious but unnerving.
+But I lost the second one merely after I locked my phone while
+being prompted to type the password for some encrypted text in that note.
+And the problem is, I have almost no direct way to know if a note is missing
+considering the size of my Evernote database.</p>
+<p>So, after searching around, I decided that, since Evernote is
+still the best app for my note taking (it has unlimited cloud storage,
+support for most platforms, bots for different apps etc.) and
+there is no 100% secure data storage in this world, I need to
+backup the database file on my own.</p>
+<h1 id="why-backup"><a class="markdownIt-Anchor" href="#why-backup"></a> Why Backup</h1>
+<p>To prevent data loss, the ultimate solution is backup, not switching application.</p>
+<h1 id="why-backup-exb-file-when-evernote-syncs-it-automatically"><a class="markdownIt-Anchor" href="#why-backup-exb-file-when-evernote-syncs-it-automatically"></a> Why Backup .exb File When Evernote Syncs it automatically</h1>
+<p>A note can be lost during and after synchronization. And if the damaged note or database
+were synchronized, data loss is unavoidable.</p>
+<h1 id="why-rsync-and-wsl"><a class="markdownIt-Anchor" href="#why-rsync-and-wsl"></a> Why rsync and WSL</h1>
+<p>It is tedious to manually copy and paste the database files to other
+locations (and track the version history). Storing the db directly inside
+the local cloud storage sync folder is also not feasible for me since those applications
+need to scan my 3.14 GB .exb file each time when I make any tiny changes to my notes.</p>
+<p>I need a scheduled job with minimum disk usage (reading and writing).
+The reading part is hard to get rid of. So the focus is I/O write usage.
+I need a <strong>binary</strong> incremental backup. <code>rsync</code> is the best candidate
+I know so far but it does not have native support
+for Windows.</p>
+<h1 id="my-solution"><a class="markdownIt-Anchor" href="#my-solution"></a> My Solution</h1>
+<p>Since I need my cloud storage application to run in the background all the time, it
+is not viable for me to schedule that application to sync. The workaround is to
+use scheduled <code>rsync</code> to copy the .exb file to the local sync folder.</p>
+<p><code>rsync</code> is able to do binary incremental copy, keeping the write usage at minimum.
+And the sync application only reads the local file as scheduled
+(my specific application, Dropbox, can binary incremental sync, too). Unless there is
+a way to directly binary incremental copy to the cloud as scheduled while the
+other parts are not affected, this solution only needs 2 full scans and very
+little write + upload to work.</p>
+<p>(I know <code>rclone</code> but it <a href="https://rclone.org/faq/#why-doesn-t-rclone-support-partial-transfers-binary-diffs-like-rsync" target="_blank" rel="noopener">does not support binary incremental upload</a>)</p>
+<h1 id="procedure"><a class="markdownIt-Anchor" href="#procedure"></a> Procedure</h1>
+<h2 id="preparation"><a class="markdownIt-Anchor" href="#preparation"></a> Preparation</h2>
+<p>If not installed yet, install cloud storage sync clients, WSL for Windows,
+<code>cron</code> and <code>rsync</code> based on the Linux distro installed.</p>
+<h2 id="decide-the-rsync-command"><a class="markdownIt-Anchor" href="#decide-the-rsync-command"></a> Decide the <code>rsync</code> Command</h2>
+<p>To learn more about cron, use <code>man cron</code> and <code>man crontab</code> or search online.</p>
+<p>Please at least read the <code>rsync --help</code> and decide which options are preferred.
+The following command is the one I use.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rsync -u -t -av -n /mnt/c/Evernote/Databases/myName.exb /mnt/c/Dropbox/EvernoteDB/myName.exb</span><br></pre></td></tr></table></figure>
+<p>The <code>-n</code> flag enables <strong>dry-run</strong>. <strong>Remove it</strong> after everything is confirmed to be correct by running this command
+directly (and see the result).</p>
+<h2 id="create-crontab-job"><a class="markdownIt-Anchor" href="#create-crontab-job"></a> Create crontab Job</h2>
+<p>Log in as the user you want to run the job (note the privileges) and edit their crontab:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crontab -e</span><br></pre></td></tr></table></figure>
+<p>Using the editor chosen, add this line:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">22 22 */2 * * rsync -u -t -av /mnt/c/Evernote/Databases/myName.exb /mnt/c/Dropbox/EvernoteDB/myName.exb &gt; /dev/null</span><br></pre></td></tr></table></figure>
+<p>This is my config. It will run the command every 2 days at 22:22 (10:22 pm) and thus backup my Evernote database every 2 days.</p>
+<p>If you want to learn more about crontab job, feel free to search on your own.</p>
+<p>If you want, you can use the snapshot feature of rsync. But since Dropbox has pretty good version history, I did not include that.</p>
+<p>(Since a note might be found missing after a long time, I highly recommend
+manually adding backups for longer period, Like a full backup for each half year)</p>
+<h2 id="make-the-daemon-start-at-windows-boot"><a class="markdownIt-Anchor" href="#make-the-daemon-start-at-windows-boot"></a> Make the Daemon start at Windows Boot</h2>
+<p>The last step is to make sure the cron daemon runs in background when Windows boots.
+It can be achieved by making bash.exe/wsl.exe a service and so on.</p>
+<p>The solution I chose was to create a shortcut containing a start command in the <code>shell:startup</code> folder.
+Feel free to have your own choices and search around.</p>
+<p>First, make sure the start command can be run without root privilege, unless you want to
+type in your sudo password every time you boot Windows.</p>
+<p>Open sudo config file:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo visudo</span><br></pre></td></tr></table></figure>
+<p>Add the following line:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%sudo ALL=NOPASSWD: /etc/init.d/cron start</span><br></pre></td></tr></table></figure>
+<p>Save and quit and fix any problem if prompted.</p>
+<p>Next, type <code>shell:startup</code> in the Run and explorer will open the startup folder.</p>
+<p>Create a shortcut to wsl.exe and edit the properties as following:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\Windows\System32\wsl.exe sudo /etc/init.d/cron start</span><br></pre></td></tr></table></figure>
+<blockquote class="imgur-embed-pub" lang="en" data-id="a/9TmBweC"><a href="//imgur.com/9TmBweC"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
+<p>And it should work unless the developers change how wsl works in the future.</p>
+<h2 id="check-if-cron-service-started-properly"><a class="markdownIt-Anchor" href="#check-if-cron-service-started-properly"></a> Check If cron Service Started Properly</h2>
+<p>If you are worrying about cron service, here is a way to test it.</p>
+<p>Create a test job in crontab. For example:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">35 * * * * echo &quot;test&quot; &gt;&gt; /home/MY_USER/test</span><br></pre></td></tr></table></figure>
+<p>It will append “test” to a file in that path for every hour at 35.</p>
+<p>First wait for the job to run first time and check the file to see result.</p>
+<p>Now manually terminate the cron service and reboot Windows to see if it works.</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wsl sudo /etc/init.d/cron stop</span><br></pre></td></tr></table></figure>
+<p>After reboot, check task manager to see if there is a process called <code>cron</code> running.</p>
+<p>Wait for the to run second time and check the result.</p>
+<p>The command above is only an example. You can change it however you like.</p>
+<h1 id="conclusion"><a class="markdownIt-Anchor" href="#conclusion"></a> Conclusion</h1>
+<p>Until now, it should be clear that what I did is only a little trick.
+But it shows how Unix commands can make Windows easier to use with WSL.</p>
+<h1 id="reference"><a class="markdownIt-Anchor" href="#reference"></a> Reference</h1>
 <ul>
-<li>use one and only one website for the blog</li>
-<li>use hexo as a “show off” page to “show off” the frontend skills (something like a portfolio)</li>
-<li>use Github Pages as a website to host demo web applications</li>
-<li>and many many more!</li>
+<li><a href="https://github.com/troytse/wsl-autostart" target="_blank" rel="noopener">wsl-autostart</a></li>
+<li><a href="https://superuser.com/questions/1112007/how-to-run-ubuntu-service-on-windows-at-startup" target="_blank" rel="noopener">How to run Ubuntu service on Windows (at startup)?</a></li>
+<li><a href="https://www.cyberciti.biz/faq/how-do-i-add-jobs-to-cron-under-linux-or-unix-oses/" target="_blank" rel="noopener">How To Add Jobs To cron Under Linux or UNIX</a></li>
+<li><a href="https://serverfault.com/questions/878887/rsync-server-using-windows-subsystem-for-linux" target="_blank" rel="noopener">rsync server using Windows Subsystem for Linux</a></li>
+<li><a href="https://www.cyberciti.biz/faq/howto-linux-unix-start-restart-cron/" target="_blank" rel="noopener">Linux Start Restart and Stop The Cron or Crond Service</a></li>
+<li><a href="https://github.com/Microsoft/WSL/issues/511" target="_blank" rel="noopener">How to auto start service</a></li>
+<li>man page of each command</li>
 </ul>
-<h2 id="choosing-theme-for-hexo"><a class="markdownIt-Anchor" href="#choosing-theme-for-hexo"></a> Choosing theme for hexo</h2>
-<p>Since I use hexo for most of my web sites, it’s crucial to have a pretty and fit theme. You can surely create your own theme too!</p>
-<p>Place for you to seek for <a href="https://hexo.io/themes/index.html" target="_blank" rel="noopener">hexo themes</a>.</p>
-<p>Potential blog theme:</p>
-<ol>
-<li><a href="https://github.com/yunfeihe/simple-black" target="_blank" rel="noopener">simple-black</a></li>
-<li><a href="https://github.com/zthxxx/hexo-theme-icarus" target="_blank" rel="noopener">icarus</a></li>
-</ol>
-<p>Potential wiki theme:</p>
-<ol>
-<li><a href="https://github.com/zalando-incubator/hexo-theme-doc" target="_blank" rel="noopener">doc</a></li>
-</ol>
-<p>Potential moe theme:</p>
-<ol>
-<li><a href="https://github.com/ZEROKISEKI/hexo-theme-gal" target="_blank" rel="noopener">gal</a></li>
-</ol>
-<p>Potential “show off” theme:</p>
-<ol>
-<li><a href="https://github.com/zchen9/hexo-theme-hollow" target="_blank" rel="noopener">hollow</a></li>
-</ol>
-<h2 id="initialize-a-local-hexo-folder"><a class="markdownIt-Anchor" href="#initialize-a-local-hexo-folder"></a> Initialize a local hexo folder</h2>
-<p>Please refer to the <a href="https://hexo.io/docs/setup.html" target="_blank" rel="noopener">official hexo documentation</a> for further details.</p>
-<ol>
-<li>
-<p>open terminal in your ideal directory</p>
-<p>For windows, for example, winkey + r and rum cmd. cd \d “path to directory”.</p>
-</li>
-<li>
-<p>type the following command to generate the initial hexo folder</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo init</span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>customize _config.yml to meet personal need</p>
-<p>For example, change the name of the site, change the theme and so on.</p>
-</li>
-<li>
-<p>config _config.yml to use git to publish the website</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line"><span class="attr">  type:</span> <span class="string">git</span></span><br><span class="line"><span class="attr">  repository:</span> <span class="attr">https://github.com/YOUR_GITHUB_USER_NAME/YOUR_REPO_FOR_THIS_SITE.git</span></span><br><span class="line"><span class="attr">  branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>add a post for our website to have something to show</p>
-<p>Hexo will give provide us with a “hello world” post. Feel free to delete it.</p>
-</li>
-</ol>
-<h2 id="register-a-domain"><a class="markdownIt-Anchor" href="#register-a-domain"></a> Register a domain</h2>
-<p>Compare different domain name service providers.
-There is a cool website called <a href="https://www.domcomp.com/" target="_blank" rel="noopener">domcomp</a>
-Pay highly attention to the different prices of buying a new one and renewing an old one and transferring domain to another provider.
-Some general tips: Search for coupons first. For instance, one can use “PRIVACYPLEASE” to have free privacy on <a href="http://name.com" target="_blank" rel="noopener">name.com</a>.
-I don’t feel like posting my personal opinion about which one is better here, however.</p>
-<h2 id="github-page-domain-setting"><a class="markdownIt-Anchor" href="#github-page-domain-setting"></a> Github Page domain setting</h2>
-<p>Please read the official <a href="https://help.github.com/articles/using-a-custom-domain-with-github-pages/" target="_blank" rel="noopener">Github tutorial</a> for further details</p>
-<ol>
-<li>
-<p>add customized subdomain to correspondent Github page settings</p>
-</li>
-<li>
-<p>change CNAME record of DNS provider</p>
-</li>
-<li>
-<p>don’t forget to add CNAME file to your hexo “source” folder or hexo will delete the CNAME config of Github Page. Or you could try to add the following line to the “deploy” of hexo config <a href="https://hexo.io/docs/deployment.html#Rsync" target="_blank" rel="noopener">link to document</a>: (note the grammar of yaml)</p>
- <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">delete:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h2 id="publish"><a class="markdownIt-Anchor" href="#publish"></a> Publish</h2>
-<ol>
-<li>
-<p>generate the website</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo generate</span><br></pre></td></tr></table></figure>
-<p>or you can also use</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo g</span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>make sure you set up the git deploy config properly</p>
-</li>
-<li>
-<p>deploy your website generated by hexo</p>
- <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
-<p>or you can also use</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo d</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h1 id="process-of-rebuild-the-site"><a class="markdownIt-Anchor" href="#process-of-rebuild-the-site"></a> Process of rebuild the site</h1>
-<p>It looks like we have some website running. But where are the contents?</p>
-<h2 id="sign-up-for-a-image-host-to-hold-the-pictures"><a class="markdownIt-Anchor" href="#sign-up-for-a-image-host-to-hold-the-pictures"></a> Sign up for a image host to hold the pictures</h2>
-<p>I have no idea if this is necessary or not for Github Pages. For VPS, in order to have better speed to load the pictures and to save storage, it is generally preferred to not save the pictures directly on your own server but on an image host.</p>
-<p>You can try <a href="https://imgur.com" target="_blank" rel="noopener">imgur</a> and follow the instructions!</p>
-<h2 id="re-upload-the-old-posts"><a class="markdownIt-Anchor" href="#re-upload-the-old-posts"></a> Re-upload the old posts</h2>
-<p>Edit and update old posts!</p>
-<h1 id="reference-links"><a class="markdownIt-Anchor" href="#reference-links"></a> Reference links</h1>
-<p>All the documentations mentioned above
-<a href="http://chuangzaoshi.com/operate" target="_blank" rel="noopener">http://chuangzaoshi.com/operate</a>
-<a href="https://www.v2ex.com/t/331613" target="_blank" rel="noopener">https://www.v2ex.com/t/331613</a></p>
 
       
     </div>
     <div class="article-footer">
       
+<blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>Link: </strong>
+      <a href="https://blog.snowme34.com/post/backup-evernote-db-rsync-wsl/" title="Backup Evernote Database File using Cloud Application and rsync of WSL (Windows Subsystem for Linux) with Minimum I/O Write" target="_blank" rel="external">https://blog.snowme34.com/post/backup-evernote-db-rsync-wsl/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>Copyright: </strong> All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">CC BY-NC-SA 4.0</a> unless stating additionally.
+    </li>
+  </ul>
+</blockquote>
+
 <!--
 
 
@@ -571,13 +553,9 @@ I don’t feel like posting my personal opinion about which one is better here, 
   
   <ul class="pager pull-left">
     
-    <li class="prev">
-      <a href="/post/no-scary-git/" title="No Scary Git"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
-    </li>
-    
     
     <li class="next">
-      <a href="/post/advice/" title="Modest Informal Password Advice"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/post/re-rebuild-note/" title="Re-Rebuilding My Website"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
     
@@ -707,9 +685,9 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
     <script defer>
     var disqus_config = function () {
         
-            this.page.url = 'https://blog.snowme34.com/post/rebuild-note/';
+            this.page.url = 'https://blog.snowme34.com/post/backup-evernote-db-rsync-wsl/';
         
-        this.page.identifier = 'rebuild-note';
+        this.page.identifier = 'backup-evernote-db-rsync-wsl';
     };
     (function() { 
         var d = document, s = d.createElement('script');  
