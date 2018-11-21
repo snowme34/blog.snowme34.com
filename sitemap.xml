@@ -2,86 +2,86 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://blog.snowme34.com/post/backup-evernote-db-rsync-wsl/</loc>
+    <loc>https://blog.snowme34.com/post/schedule-tasks-using-crontab-on-windows-10-with-wsl/</loc>
     
-    <lastmod>2018-09-27T17:44:57.018Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://blog.snowme34.com/post/re-rebuild-note/</loc>
-    
-    <lastmod>2018-09-20T04:44:21.145Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://blog.snowme34.com/post/Sonnet-18-zh-CN-translation/</loc>
-    
-    <lastmod>2018-09-19T18:50:53.202Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://blog.snowme34.com/about/index.html</loc>
-    
-    <lastmod>2018-09-19T07:31:36.692Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://blog.snowme34.com/post/rebuild-note/</loc>
-    
-    <lastmod>2018-09-19T07:28:37.718Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://blog.snowme34.com/post/no-scary-git/</loc>
-    
-    <lastmod>2018-09-19T07:28:29.620Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://blog.snowme34.com/post/advice/</loc>
-    
-    <lastmod>2018-09-19T07:23:51.930Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://blog.snowme34.com/404.html</loc>
-    
-    <lastmod>2018-09-18T20:13:01.328Z</lastmod>
+    <lastmod>2018-11-21T07:50:08.133Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://blog.snowme34.com/test.html</loc>
     
-    <lastmod>2018-09-18T19:01:58.026Z</lastmod>
+    <lastmod>2018-10-26T16:22:07.544Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://blog.snowme34.com/tags/index.html</loc>
     
-    <lastmod>2018-09-17T22:57:07.496Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://blog.snowme34.com/categories/index.html</loc>
-    
-    <lastmod>2018-09-17T22:56:09.066Z</lastmod>
+    <lastmod>2018-10-26T16:22:07.543Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://blog.snowme34.com/repository/index.html</loc>
     
-    <lastmod>2018-09-15T18:19:48.979Z</lastmod>
+    <lastmod>2018-10-26T16:22:07.542Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.snowme34.com/categories/index.html</loc>
+    
+    <lastmod>2018-10-26T16:22:07.531Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.snowme34.com/about/index.html</loc>
+    
+    <lastmod>2018-10-26T16:22:07.530Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.snowme34.com/post/rebuild-note/</loc>
+    
+    <lastmod>2018-10-26T16:22:07.528Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.snowme34.com/post/re-rebuild-note/</loc>
+    
+    <lastmod>2018-10-26T16:22:07.527Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.snowme34.com/post/no-scary-git/</loc>
+    
+    <lastmod>2018-10-26T16:22:07.526Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.snowme34.com/post/advice/</loc>
+    
+    <lastmod>2018-10-26T16:22:07.524Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.snowme34.com/post/Sonnet-18-zh-CN-translation/</loc>
+    
+    <lastmod>2018-10-26T16:22:07.523Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.snowme34.com/404.html</loc>
+    
+    <lastmod>2018-10-26T16:22:07.520Z</lastmod>
     
   </url>
   

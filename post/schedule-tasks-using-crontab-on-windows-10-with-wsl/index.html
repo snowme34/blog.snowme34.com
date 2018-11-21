@@ -17,22 +17,22 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>Modest Informal Password Advice | Blog | Snowme34</title>
-  <meta name="description" content="个人对于密码设置的建议 本文只是个人建议，仅供参考，写出来主要给自己留个note 其实写这个原因是没多少人写 这里先简单说一下密码是怎么破解的。 首先破解者能够访问输入用户名和密码的地方，要先找到门口。第一层防御就是隐藏这个访问点。  对于端口，可以调高指定端口，但是所有端口只有6万个，很快就能扫描完成。 对于网页，就可以用一些特殊地址掩盖真实的登陆页面。 对于wifi，可以禁止SSID广播。">
-<meta name="keywords" content="zh-CN,Notes">
+  <title>Schedule Tasks Using Crontab on Windows 10 with WSL | Blog | Snowme34</title>
+  <meta name="description" content="This is a short tutorial about how to use WSL(Windows Subsystem for Linux) to schedule cron jobs, with a specific example of backing up Evernote’s database, to show how versatile this method is and po">
+<meta name="keywords" content="Tutorial,Trick">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Modest Informal Password Advice">
-<meta property="og:url" content="https://blog.snowme34.com/post/advice/index.html">
+<meta property="og:title" content="Schedule Tasks Using Crontab on Windows 10 with WSL">
+<meta property="og:url" content="https://blog.snowme34.com/post/schedule-tasks-using-crontab-on-windows-10-with-wsl/index.html">
 <meta property="og:site_name" content="Blog | Snowme34">
-<meta property="og:description" content="个人对于密码设置的建议 本文只是个人建议，仅供参考，写出来主要给自己留个note 其实写这个原因是没多少人写 这里先简单说一下密码是怎么破解的。 首先破解者能够访问输入用户名和密码的地方，要先找到门口。第一层防御就是隐藏这个访问点。  对于端口，可以调高指定端口，但是所有端口只有6万个，很快就能扫描完成。 对于网页，就可以用一些特殊地址掩盖真实的登陆页面。 对于wifi，可以禁止SSID广播。">
+<meta property="og:description" content="This is a short tutorial about how to use WSL(Windows Subsystem for Linux) to schedule cron jobs, with a specific example of backing up Evernote’s database, to show how versatile this method is and po">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-10-26T16:22:07.524Z">
+<meta property="og:updated_time" content="2018-11-21T07:50:08.133Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Modest Informal Password Advice">
-<meta name="twitter:description" content="个人对于密码设置的建议 本文只是个人建议，仅供参考，写出来主要给自己留个note 其实写这个原因是没多少人写 这里先简单说一下密码是怎么破解的。 首先破解者能够访问输入用户名和密码的地方，要先找到门口。第一层防御就是隐藏这个访问点。  对于端口，可以调高指定端口，但是所有端口只有6万个，很快就能扫描完成。 对于网页，就可以用一些特殊地址掩盖真实的登陆页面。 对于wifi，可以禁止SSID广播。">
+<meta name="twitter:title" content="Schedule Tasks Using Crontab on Windows 10 with WSL">
+<meta name="twitter:description" content="This is a short tutorial about how to use WSL(Windows Subsystem for Linux) to schedule cron jobs, with a specific example of backing up Evernote’s database, to show how versatile this method is and po">
 <meta name="twitter:creator" content="@snowme34">
   <!-- Canonical links -->
-  <link rel="canonical" href="https://blog.snowme34.com/post/advice/index.html">
+  <link rel="canonical" href="https://blog.snowme34.com/post/schedule-tasks-using-crontab-on-windows-10-with-wsl/index.html">
   
     <link rel="alternate" href="/atom.xml" title="Blog | Snowme34" type="application/atom+xml">
   
@@ -336,21 +336,21 @@
   <div class="slimContent">
     <nav id="toc" class="article-toc">
       <h3 class="toc-title">Catalogue</h3>
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#个人对于密码设置的建议"><span class="toc-number">1.</span> <span class="toc-text"> 个人对于密码设置的建议</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#正文"><span class="toc-number">1.1.</span> <span class="toc-text"> 正文</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#step-1-生成一个纯随机文本"><span class="toc-number">1.1.1.</span> <span class="toc-text"> Step 1. 生成一个纯随机文本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#step-2-改编这个纯随机文本"><span class="toc-number">1.1.2.</span> <span class="toc-text"> Step 2. 改编这个纯随机文本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#step-3-使用这个强密码"><span class="toc-number">1.1.3.</span> <span class="toc-text"> Step 3. 使用这个强密码</span></a></li></ol></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#motivation"><span class="toc-number">1.</span> <span class="toc-text"> Motivation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#why-rsync-and-wsl"><span class="toc-number">2.</span> <span class="toc-text"> Why rsync and WSL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#my-solution"><span class="toc-number">3.</span> <span class="toc-text"> My Solution</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#procedure"><span class="toc-number">4.</span> <span class="toc-text"> Procedure</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#about-the-database-file"><span class="toc-number">5.</span> <span class="toc-text"> About the Database File</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#preparation"><span class="toc-number">5.1.</span> <span class="toc-text"> Preparation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#decide-the-rsync-command"><span class="toc-number">5.2.</span> <span class="toc-text"> Decide the rsync Command</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#create-crontab-job"><span class="toc-number">5.3.</span> <span class="toc-text"> Create crontab Job</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#make-the-daemon-start-at-windows-boot"><span class="toc-number">5.4.</span> <span class="toc-text"> Make the Daemon start at Windows Boot</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#check-if-cron-service-started-properly"><span class="toc-number">5.5.</span> <span class="toc-text"> Check If cron Service Started Properly</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#conclusion"><span class="toc-number">6.</span> <span class="toc-text"> Conclusion</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#reference"><span class="toc-number">7.</span> <span class="toc-text"> Reference</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#updates"><span class="toc-number">8.</span> <span class="toc-text"> Updates</span></a></li></ol>
     </nav>
   </div>
 </aside>
 
 <main class="main" role="main">
   <div class="content">
-  <article id="post-advice" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+  <article id="post-schedule-tasks-using-crontab-on-windows-10-with-wsl" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
     
     <div class="article-header">
       
         
   
     <h1 class="article-title" itemprop="name">
-      Modest Informal Password Advice
+      Schedule Tasks Using Crontab on Windows 10 with WSL
     </h1>
   
 
@@ -359,8 +359,8 @@
         
 <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/post/advice/" class="article-date">
-	  <time datetime="2018-03-22T07:00:00.000Z" itemprop="datePublished">03/22/2018</time>
+	<a href="/post/schedule-tasks-using-crontab-on-windows-10-with-wsl/" class="article-date">
+	  <time datetime="2018-09-26T00:36:10.000Z" itemprop="datePublished">09/25/2018</time>
 	</a>
 </span>
 
@@ -373,60 +373,133 @@
         
   <span class="article-tag">
     <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/tags/Notes/">Notes</a>, <a class="article-tag-link" href="/tags/zh-CN/">zh-CN</a>
+	<a class="article-tag-link" href="/tags/Trick/">Trick</a>, <a class="article-tag-link" href="/tags/Tutorial/">Tutorial</a>
   </span>
 
 
         
 
-        <!-- <span class="post-comment"><i class="icon icon-comment"></i> <a href="/post/advice/#comments" class="article-comment-link">Comments</a></span> -->
+        <!-- <span class="post-comment"><i class="icon icon-comment"></i> <a href="/post/schedule-tasks-using-crontab-on-windows-10-with-wsl/#comments" class="article-comment-link">Comments</a></span> -->
         
 	
 	
-		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Time: 4 minutes</span>
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Time: 7 minutes</span>
 	
 
       </div>
     </div>
     <div class="article-entry markdown-body" itemprop="articleBody">
       
-        <h1 id="个人对于密码设置的建议"><a class="markdownIt-Anchor" href="#个人对于密码设置的建议"></a> 个人对于密码设置的建议</h1>
-<p>本文只是个人建议，仅供参考，写出来主要给自己留个note</p>
-<p><s>其实写这个原因是没多少人写</s></p>
-<p>这里先<strong>简单</strong>说一下密码是怎么破解的。</p>
-<p>首先破解者能够访问输入用户名和密码的地方，要先找到门口。第一层防御就是隐藏这个访问点。</p>
+        <p>This is a short tutorial about how to use WSL(Windows Subsystem for Linux) to schedule cron jobs,
+with a specific example of backing up Evernote’s database, to show how versatile this method is
+and potential benefits. In this example, the strategy is optimized for large files that have frequent
+small changes regarding I/O writes.</p>
+<p><a href="#procedure">Jump directly to procedure</a></p>
+<h2 id="motivation"><a class="markdownIt-Anchor" href="#motivation"></a> Motivation</h2>
+<p>It was the second time for me to <a href="https://news.ycombinator.com/item?id=9090135" target="_blank" rel="noopener">lose a note in Evernote</a>.
+The first one was due to a sync error. It was nothing serious but unnerving.
+But I lost the second one merely after I locked my phone while
+being prompted to type the password for some encrypted text in that note.
+And the problem is, I have almost no direct way to know if a note is missing
+considering the size of my Evernote database.</p>
+<p>So, after searching around, I decided that, since Evernote is
+still the best app for my note taking (it has unlimited cloud storage,
+support for most platforms, bots for different apps etc.) and
+there is no 100% secure data storage in this world, I need to
+backup the database file on my own.</p>
+<p>Side note: I saw a lot of discussion about switching applications to have more secure database.
+Unfortunately, that is not the case. Evernote is mature enough that the official client gives users
+the option to backup the database directly and <a href="https://discussion.evernote.com/topic/115648-looking-for-evernote-documentation-diagnosing-and-fixing-evernote-performance-problems/" target="_blank" rel="noopener">access with ease</a> later on.
+To prevent data loss, the ultimate solution is to have multiple backups.</p>
+<h2 id="why-rsync-and-wsl"><a class="markdownIt-Anchor" href="#why-rsync-and-wsl"></a> Why rsync and WSL</h2>
+<p>It is tedious to manually copy and paste the database files to other
+locations (and track the version history). Storing the db directly inside
+the local cloud storage sync folder is also not feasible for me since those applications
+need to scan my 3.14 GB .exb file each time when I make any tiny changes to my notes.</p>
+<p>I need a scheduled job with minimum disk usage (reading and writing).
+The reading part is hard to get rid of. So the focus is I/O write usage.
+I need a <strong>binary</strong> incremental backup. <code>rsync</code> is the best candidate
+I know so far but it does not have native support for Windows.</p>
+<h2 id="my-solution"><a class="markdownIt-Anchor" href="#my-solution"></a> My Solution</h2>
+<p>Since I need my cloud storage application to run in the background all the time, it
+is not viable for me to schedule that application to sync. The workaround is to
+use scheduled <code>rsync</code> to copy the .exb file to the local sync folder.</p>
+<p><code>rsync</code> is able to do binary incremental copy, keeping the write usage at minimum.
+And the sync application only reads the local file as scheduled
+(my specific application, Dropbox, can binary incremental sync, too). Unless there is
+a way to directly binary incremental copy to the cloud as scheduled while the
+other parts are not affected, this solution only needs 2 full scans and very
+little write + upload to work.</p>
+<p>(I know <code>rclone</code> but it <a href="https://rclone.org/faq/#why-doesn-t-rclone-support-partial-transfers-binary-diffs-like-rsync" target="_blank" rel="noopener">does not support binary incremental upload</a>)</p>
+<h2 id="procedure"><a class="markdownIt-Anchor" href="#procedure"></a> Procedure</h2>
+<h2 id="about-the-database-file"><a class="markdownIt-Anchor" href="#about-the-database-file"></a> About the Database File</h2>
+<p>There is an <a href="https://help.evernote.com/hc/en-us/articles/208313528-How-to-back-up-and-restore-your-data-in-Evernote-for-Windows" target="_blank" rel="noopener">official guide</a> for it.
+It explains how to find the location, how to export the note from a database file and so on.</p>
+<h3 id="preparation"><a class="markdownIt-Anchor" href="#preparation"></a> Preparation</h3>
+<p>If not installed yet, install cloud storage sync clients, WSL for Windows,
+<code>cron</code> and <code>rsync</code> based on the Linux distro installed.</p>
+<h3 id="decide-the-rsync-command"><a class="markdownIt-Anchor" href="#decide-the-rsync-command"></a> Decide the <code>rsync</code> Command</h3>
+<p>To learn more about cron, use <code>man cron</code> and <code>man crontab</code> or search online.</p>
+<p>Please at least read the <code>rsync --help</code> and decide which options are preferred.
+The following command is the one I am using.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rsync -u -t -av -n /mnt/c/Evernote/Databases/myName.exb /mnt/c/Dropbox/EvernoteDB/myName.exb</span><br></pre></td></tr></table></figure>
+<p>The <code>-n</code> flag enables <strong>dry-run</strong>. <strong>Remove it</strong> after everything is confirmed
+to be correct by running this command directly (and see the result).</p>
+<h3 id="create-crontab-job"><a class="markdownIt-Anchor" href="#create-crontab-job"></a> Create crontab Job</h3>
+<p>Log in as the user you want to run the job (note the privileges) and edit their crontab:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crontab -e</span><br></pre></td></tr></table></figure>
+<p>Using the editor chosen, add this line:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">22 22 */2 * * rsync -u -t -av /mnt/c/Evernote/Databases/myName.exb /mnt/c/Dropbox/EvernoteDB/myName.exb &gt; /dev/null</span><br></pre></td></tr></table></figure>
+<p>This is my config. It will run the command every 2 days at 22:22 (10:22 pm) and thus backup my Evernote database every 2 days.</p>
+<p>If you want to learn more about crontab job, feel free to search on your own.</p>
+<p>If you want, you can use the snapshot feature of rsync. But since Dropbox has pretty good version history, I did not include that.</p>
+<p>(Since a note might be found missing after a long time, I highly recommend
+manually adding backups for longer period, Like a full backup for each half year using another cron job)</p>
+<h3 id="make-the-daemon-start-at-windows-boot"><a class="markdownIt-Anchor" href="#make-the-daemon-start-at-windows-boot"></a> Make the Daemon start at Windows Boot</h3>
+<p>The last step is to make sure the cron daemon runs in background when Windows boots.
+It can be achieved by making bash.exe/wsl.exe a service and so on.</p>
+<p>The solution I chose was to create a shortcut containing a start command in the <code>shell:startup</code> folder.
+Feel free to have your own choices and search around.</p>
+<p>First, make sure the start command can be run without root privilege, unless you want to
+type in your sudo password every time you boot Windows.</p>
+<p>Open sudo config file:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo visudo</span><br></pre></td></tr></table></figure>
+<p>Add the following line:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%sudo ALL=NOPASSWD: /etc/init.d/cron start</span><br></pre></td></tr></table></figure>
+<p>Save and quit and fix any problem if prompted.</p>
+<p>Next, type <code>shell:startup</code> in the Run and explorer will open the startup folder.</p>
+<p>Create a shortcut to wsl.exe and edit the properties as following:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\Windows\System32\wsl.exe sudo /etc/init.d/cron start</span><br></pre></td></tr></table></figure>
+<blockquote class="imgur-embed-pub" lang="en" data-id="a/9TmBweC"><a href="//imgur.com/9TmBweC"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
+<p>And it should work unless the developers change how wsl works in the future.</p>
+<h3 id="check-if-cron-service-started-properly"><a class="markdownIt-Anchor" href="#check-if-cron-service-started-properly"></a> Check If cron Service Started Properly</h3>
+<p>If you are worrying about cron service, here is a way to test it.</p>
+<p>Create a test job in crontab. For example:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">35 * * * * echo &quot;test&quot; &gt;&gt; /home/MY_USER/test</span><br></pre></td></tr></table></figure>
+<p>It will append “test” to a file in that path for every hour at 35.</p>
+<p>First wait for the job to run first time and check the file to see result.</p>
+<p>Now manually terminate the cron service and reboot Windows to see if it works.</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wsl sudo /etc/init.d/cron stop</span><br></pre></td></tr></table></figure>
+<p>After reboot, check task manager to see if there is a process called <code>cron</code> running.</p>
+<p>Wait for the to run second time and check the result.</p>
+<p>The command above is only an example. You can change it however you like.</p>
+<h2 id="conclusion"><a class="markdownIt-Anchor" href="#conclusion"></a> Conclusion</h2>
+<p>Until now, it should be clear that what I did is only a little trick.
+But it shows how Unix commands can make Windows easier to use with WSL.</p>
+<h2 id="reference"><a class="markdownIt-Anchor" href="#reference"></a> Reference</h2>
 <ul>
-<li>对于端口，可以调高指定端口，但是所有端口只有6万个，很快就能扫描完成。</li>
-<li>对于网页，就可以用一些特殊地址掩盖真实的登陆页面。</li>
-<li>对于wifi，可以禁止SSID广播。</li>
+<li><a href="https://github.com/troytse/wsl-autostart" target="_blank" rel="noopener">wsl-autostart</a></li>
+<li><a href="https://superuser.com/questions/1112007/how-to-run-ubuntu-service-on-windows-at-startup" target="_blank" rel="noopener">How to run Ubuntu service on Windows (at startup)?</a></li>
+<li><a href="https://www.cyberciti.biz/faq/how-do-i-add-jobs-to-cron-under-linux-or-unix-oses/" target="_blank" rel="noopener">How To Add Jobs To cron Under Linux or UNIX</a></li>
+<li><a href="https://serverfault.com/questions/878887/rsync-server-using-windows-subsystem-for-linux" target="_blank" rel="noopener">rsync server using Windows Subsystem for Linux</a></li>
+<li><a href="https://www.cyberciti.biz/faq/howto-linux-unix-start-restart-cron/" target="_blank" rel="noopener">Linux Start Restart and Stop The Cron or Crond Service</a></li>
+<li><a href="https://github.com/Microsoft/WSL/issues/511" target="_blank" rel="noopener">How to auto start service</a></li>
+<li>man page of each command</li>
 </ul>
-<p>这时需要一个用户名和一个密码。</p>
+<h2 id="updates"><a class="markdownIt-Anchor" href="#updates"></a> Updates</h2>
 <ul>
-<li>用户名在许多情况下都是注册时候用的邮箱地址。为了在这一个地方防御住，需要用非通用邮箱注册。包括但不限于域名邮箱地址，一次性邮箱地址。</li>
-<li>花花绿绿的hello@abc.xyz这样的域名邮箱听起来很神奇，看起来很神奇，其实很简单。简单的话可以去域名商购买一个低价冷门域名，然后forward到真实的邮箱。还可以去zoho这样的地方得到。</li>
-<li>当然一般情况下都是知道用户名才会去尝试破解。</li>
-<li>密码一般都是暴力破解。</li>
-<li>注：破解密码和盗取密码不一样。如有些古老的网站会把密码用明文传输，直接抓包就行了。</li>
-<li>为了从最有可能的密码开始尝试，可以用字典，彩虹表等。简单来讲就是最常见密码放在一起。例如生日，每年只有12个月，每个月只有30天左右，从当前日期往回倒退猜也不会有无限年份，用纯生日做密码是及其危险的。想一想有多少人把aabbccdd作为wifi密码。</li>
-<li>当然如果密码泄露了，比如在坏坏的公共wifi登陆并进行危险操作，就不用暴力破解了。</li>
-<li>防止暴力破解可以试试添加尝试次数上限（这取决于网络服务提供商）和两步验证。为了让其前功尽弃，还是经常改密码比较安全。</li>
+<li>11/16/2018: changed the original title and added abstract summary</li>
 </ul>
-<h2 id="正文"><a class="markdownIt-Anchor" href="#正文"></a> 正文</h2>
-<h3 id="step-1-生成一个纯随机文本"><a class="markdownIt-Anchor" href="#step-1-生成一个纯随机文本"></a> Step 1. 生成一个纯随机文本</h3>
-<p>到了暴力破解这一步，只是一个时间问题。可以参考一下这两个暴力破解表格：<a href="http://widgetx.blogspot.com/p/brute-force-attack-time-table.html" target="_blank" rel="noopener">暴力破解时间表格1</a>，<a href="https://www.reddit.com/r/dataisbeautiful/comments/322lbk/time_required_to_bruteforce_crack_a_password/?st=ix3ejwue&amp;amp;sh=350cf8da" target="_blank" rel="noopener">暴力破解时间表格2</a>。为了让你的密码能够坚持到被暴力破解这一个步骤，不在字典攻击就被拿下，你需要一个纯随机的文本作为密码。</p>
-<p>你可以自己写一个随机文本产生器，也可以用计算器自带的，也可以去应用商城下载一个。这里推荐random网站提供的<a href="https://www.random.org/passwords" target="_blank" rel="noopener">随机密码生成</a>。</p>
-<p>当然在大多数情况下，为了方便记忆，你还是可以自己想出一个接近于纯随机的密码。 可以弄一个西班牙语单词和汉语拼音的混合体，中间再加点你最喜欢的化学元素的中子数和标点符号。</p>
-<h3 id="step-2-改编这个纯随机文本"><a class="markdownIt-Anchor" href="#step-2-改编这个纯随机文本"></a> Step 2. 改编这个纯随机文本</h3>
-<p>费了这么大劲得到的一个纯随机文本，光记住都要再花一些时间，怎么能直接就用作密码呢？（大雾，为了安全，在最重要的地方还是完全没有使用过的纯随机密码保险）</p>
-<p>可以试试在这个随机文本前面或者后面加上密码用途的标识符（如笔记就是ThoSto（thought store，思想存储，这样奇怪的东西反而好记也不好被猜到）），这个标识符可以用在你所有跟笔记有关的账户上，但尽量不要重复，可以改大小写和添加标点符号。然后在密码主题的后面加上你所注册的账户的<strong>唯一</strong>标识符，如印象笔记就是ImpLike（Impression印象，Like像），最后再随便加几个标点符号，如在ImpLike之间加一个下划线，在最后加一个感叹号之类的。比较有特色的可以把这个网站名字读50遍，然后把嘴里发出的那个音用拼音写下来当结尾。</p>
-<p>每次设置新密码的时候可以把这3各部分的位置互换。</p>
-<p>好了，现在最大的问题就是密码太长了，有些网站无法注册，裁剪即可。</p>
-<h3 id="step-3-使用这个强密码"><a class="markdownIt-Anchor" href="#step-3-使用这个强密码"></a> Step 3. 使用这个强密码</h3>
-<p>在注册新账户的时候在密码一栏填写就可以了。也可以把现有账户的密码改成这个。</p>
-<p>当然也可以直接使用<a href="https://www.lastpass.com/" target="_blank" rel="noopener">lastpass</a>这样的软件、浏览器插件。这里也推荐用该类软件保存非重要网站、账户的密码。强烈推荐<a href="https://keepass.info/" target="_blank" rel="noopener">keepass</a>和面向Linux桌面的<a href="https://keepassxc.org/" target="_blank" rel="noopener">keepassxc</a>.</p>
-<p>注意存放这个密码。网络安全最大的漏洞都是来源于使用者。都知道要改默认PIN，但事实上机会没有人会记得去改它。</p>
-<p>注：此文不是对于保护上网隐私的描述。也不是防御网络攻击的描述。</p>
-<p>注：本文为简单记叙文，内容没有经过严格验证。</p>
 
       
     </div>
@@ -437,7 +510,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>Link: </strong>
-      <a href="https://blog.snowme34.com/post/advice/" title="Modest Informal Password Advice" target="_blank" rel="external">https://blog.snowme34.com/post/advice/</a>
+      <a href="https://blog.snowme34.com/post/schedule-tasks-using-crontab-on-windows-10-with-wsl/" title="Schedule Tasks Using Crontab on Windows 10 with WSL" target="_blank" rel="external">https://blog.snowme34.com/post/schedule-tasks-using-crontab-on-windows-10-with-wsl/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -491,13 +564,9 @@
   
   <ul class="pager pull-left">
     
-    <li class="prev">
-      <a href="/post/rebuild-note/" title="Rebuilding My Website"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
-    </li>
-    
     
     <li class="next">
-      <a href="/post/Sonnet-18-zh-CN-translation/" title="Shakespeare Sonnet 18 Chinese Translation"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/post/re-rebuild-note/" title="Re-Rebuilding My Website"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
     
@@ -627,9 +696,9 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
     <script defer>
     var disqus_config = function () {
         
-            this.page.url = 'https://blog.snowme34.com/post/advice/';
+            this.page.url = 'https://blog.snowme34.com/post/schedule-tasks-using-crontab-on-windows-10-with-wsl/';
         
-        this.page.identifier = 'advice';
+        this.page.identifier = 'schedule-tasks-using-crontab-on-windows-10-with-wsl';
     };
     (function() { 
         var d = document, s = d.createElement('script');  

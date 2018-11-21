@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://blog.snowme34.com/post/backup-evernote-db-rsync-wsl/</loc>
-    <lastmod>2018-09-27T17:44:57.018Z</lastmod>
-  </url>  <url>
-    <loc>https://blog.snowme34.com/post/re-rebuild-note/</loc>
-    <lastmod>2018-09-20T04:44:21.145Z</lastmod>
-  </url>  <url>
-    <loc>https://blog.snowme34.com/post/Sonnet-18-zh-CN-translation/</loc>
-    <lastmod>2018-09-19T18:50:53.202Z</lastmod>
+    <loc>https://blog.snowme34.com/post/schedule-tasks-using-crontab-on-windows-10-with-wsl/</loc>
+    <lastmod>2018-11-21T07:50:08.133Z</lastmod>
   </url>  <url>
     <loc>https://blog.snowme34.com/post/rebuild-note/</loc>
-    <lastmod>2018-09-19T07:28:37.718Z</lastmod>
+    <lastmod>2018-10-26T16:22:07.528Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.snowme34.com/post/re-rebuild-note/</loc>
+    <lastmod>2018-10-26T16:22:07.527Z</lastmod>
   </url>  <url>
     <loc>https://blog.snowme34.com/post/no-scary-git/</loc>
-    <lastmod>2018-09-19T07:28:29.620Z</lastmod>
+    <lastmod>2018-10-26T16:22:07.526Z</lastmod>
   </url>  <url>
     <loc>https://blog.snowme34.com/post/advice/</loc>
-    <lastmod>2018-09-19T07:23:51.930Z</lastmod>
+    <lastmod>2018-10-26T16:22:07.524Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.snowme34.com/post/Sonnet-18-zh-CN-translation/</loc>
+    <lastmod>2018-10-26T16:22:07.523Z</lastmod>
   </url>
 </urlset>
