@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://blog.snowme34.com/about/index.html</loc>
+    
+    <lastmod>2019-01-04T08:53:02.472Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://blog.snowme34.com/post/schedule-tasks-using-crontab-on-windows-10-with-wsl/</loc>
     
     <lastmod>2018-11-21T07:50:08.133Z</lastmod>
@@ -33,13 +40,6 @@
     <loc>https://blog.snowme34.com/categories/index.html</loc>
     
     <lastmod>2018-10-26T16:22:07.531Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://blog.snowme34.com/about/index.html</loc>
-    
-    <lastmod>2018-10-26T16:22:07.530Z</lastmod>
     
   </url>
   
