@@ -1,0 +1,3 @@
+[submodule "themes/nonentity"]
+	path = themes/nonentity
+	url = https://github.com/snowme34/hugo-theme-nonentity

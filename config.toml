@@ -1,3 +1,99 @@
-baseURL = 'http://example.org/'
+baseURL = 'https://blog.snowme34.com/'
 languageCode = 'en-us'
-title = 'My New Hugo Site'
+title = 'Blog | snowme34'
+theme = "nonentity"
+enableEmoji = true
+enableRobotsTXT = true
+
+[taxonomies]
+  category = "categories"
+  tag = "tags"
+
+[outputs]
+  home = ["HTML", "JSON", "RSS"]
+
+[markup]
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 4
+  [markup.highlight]
+    noClasses = false
+
+[params]
+  description = "Personal blog of snowme34. Random tech notes, thoughts, and something that looks like literature"
+  footerText = "If you want to realize your deams, you have to let them go back to nothing first"
+  favicon = "/favicon.ico"
+  dateFormat = "January 2, 2006"
+  enableRSS = true
+  rightSidebarInfoTitle = "Information"
+  rightSidebarInfo = "Still working in progress..."
+  showColorSchemeToggle = true
+  paginate = 15
+  paginateArchive = 10
+  paginateTaxonomy = 5
+  paginateTags = 15
+
+  [params.profile]
+    avatar = "avatar.jpg"
+    name = "snowme34"
+    bio = "Dreaming of sugar snow"
+    link = "https://blog.snowme34.com"
+
+  [params.about]
+    url = "https://about.snowme34.com"
+
+  [[params.socials]]
+    name = "GitHub"
+    url = "https://github.com/snowme34"
+    icon = "github"
+    weight = 1
+
+  [[params.socials]]
+    name = "X"
+    url = "https://x.com/snowme34"
+    icon = "x"
+    weight = 2
+
+  [[params.socials]]
+    name = "Mastodon"
+    url = "https://mastodon.social/@snowme34"
+    icon = "mastodon"
+    weight = 3
+
+  [[params.socials]]
+    name = "Instagram"
+    url = "https://instagram.com/snowme34"
+    icon = "instagram"
+    weight = 4
+
+  [params.leftNavExtra]
+    enable = true
+
+    [[params.leftNavExtra.items]]
+      name = "Docs"
+      link = "https://docs.snowme34.com"
+      location = "append"
+      svg = "<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M4 19.5A2.5 2.5 0 0 1 6.5 17H20'></path><path d='M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z'></path></svg>"
+
+  [params.copyright]
+    text = "© 2026 snowme34"
+
+    [params.copyright.license]
+      enable = true
+      name = "CC BY-SA 4.0"
+      image = "https://i.creativecommons.org/l/by-sa/4.0/80x15.png"
+      link = "https://creativecommons.org/licenses/by-sa/4.0/"
+
+  [params.comments.giscus]
+    enable = true
+    repo = "snowme34/blog.snowme34.com"
+    repoID = "MDEwOlJlcG9zaXRvcnkxMDYxMjIyMzc="
+    category = "Announcements"
+    categoryID = "DIC_kwDOBlNL_c4C7DBo"
+    mapping = "pathname"
+    reactionsEnabled = "1"
+    emitMetadata = "0"
+    inputPosition = "bottom"
+    theme = "preferred_color_scheme"
+    lang = "en"
+    loading = "lazy"
