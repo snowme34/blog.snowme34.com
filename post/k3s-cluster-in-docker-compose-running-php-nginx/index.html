@@ -1,0 +1,379 @@
+<!doctype html><html lang=en-us dir=ltr><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>K3s Cluster in Docker-Compose Running PHP Nginx | Blog | snowme34</title>
+<meta name=description content="Run a K3s cluster in docker-compose with PHP + Nginx on 1 Gb, 1 vCPU server.
+If anything goes wrong: read documents; check if the versions match (things are changing every day)
+At the end of this page includes a list of links used as reference when writing.
+Table of Content Table of Content Environment Prerequisites Set Up Directory Launch the Cluster using Docker-Compose Talk to the Cluster Create Cluster Configs SSL Key Nginx Snippets Nginx Site PHP code PHP Resources Nginx Resources Config and Run the Cluster Result Stop and Clean up Conclusion and Thoughts Future Works Reference Environment 1 GB Memory 1 vCPU 25 GB SSD Debian 10."><link rel=icon href=/favicon.ico><link rel=alternate type=application/rss+xml title="Blog | snowme34" href=/index.xml><link rel=canonical href=https://blog.snowme34.com/post/k3s-cluster-in-docker-compose-running-php-nginx/><link rel=stylesheet href=/css/main.css><script>(function(){var e=localStorage.getItem("nonentity-color-scheme")||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");document.documentElement.dataset.colorScheme=e})()</script></head><body class=theme-nonentity><div class=page-shell><aside class=left-sidebar data-sidebar><div class=left-sidebar__backdrop data-sidebar-backdrop hidden></div><div class=left-sidebar__inner><button class=sidebar-toggle type=button aria-label="Toggle navigation" aria-expanded=false data-sidebar-toggle>
+<span class="sidebar-toggle__icon sidebar-toggle__icon--closed" aria-hidden=true><svg viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg>
+</span><span class="sidebar-toggle__icon sidebar-toggle__icon--open" aria-hidden=true><svg viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="11 17 6 12 11 7"/><polyline points="18 17 13 12 18 7"/></svg></span></button><div class=profile-card><a class=profile-card__avatar-link href=https://blog.snowme34.com aria-label=snowme34><div class=profile-card__avatar><img src=/avatar.jpg alt=snowme34></div></a><h1 class=profile-card__name>snowme34</h1><p class=profile-card__bio>Dreaming of sugar snow</p></div><button class=search-trigger type=button data-search-open>
+<svg viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+<span>Search</span></button><nav class=main-nav aria-label="Main navigation"><a href=/ class=main-nav__link><svg viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9.5 12 2l9 7.5"/><path d="M9 22V12h6v10"/><path d="M4 10v12h16V10"/></svg>
+<span class=main-nav__label>Home</span>
+</a><a href=/post/ class=main-nav__link><svg viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M8 4v6"/><path d="M16 4v6"/></svg>
+<span class=main-nav__label>Archives</span>
+</a><a href=/categories/ class=main-nav__link><svg viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 012-2h5l2 2h7a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
+<span class=main-nav__label>Categories</span>
+</a><a href=/tags/ class=main-nav__link><svg viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41 11 23l-9-9V4h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+<span class=main-nav__label>Tags</span>
+</a><a href=https://about.snowme34.com class=main-nav__link target=_blank rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+<span class=main-nav__label>About</span>
+</a><a href=https://docs.snowme34.com class=main-nav__link target=_blank rel="noopener noreferrer"><span class="main-nav__icon main-nav__icon--custom" aria-hidden=true><svg viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5.0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5.0 014 19.5v-15A2.5 2.5.0 016.5 2z"/></svg></span>
+<span class=main-nav__label>Docs</span></a></nav><div class=sidebar-footer><div class=social-links><a href=https://github.com/snowme34 aria-label=GitHub target=_blank rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37.0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44.0 0020 4.77 5.07 5.07.0 0019.91 1S18.73.65 16 2.48a13.38 13.38.0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07.0 005 4.77 5.44 5.44.0 003.5 8.55c0 5.42 3.3 6.61 6.44 7A3.37 3.37.0 009 18.13V22"/></svg>
+</a><a href=https://x.com/snowme34 aria-label=X target=_blank rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4l16 16"/><path d="M20 4 4 20"/></svg>
+</a><a href=https://mastodon.social/@snowme34 aria-label=Mastodon target=_blank rel="noopener noreferrer"><svg viewBox="0 0 48 48" fill="none" stroke="currentcolor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M41.0662 20.4015c0 6.2578-.9723 8.3975-2.8838 10.19C34.3081 34.2257 24 33.9433 24 33.9433a40.2923 40.2923.0 01-7.0141-.5285S15.86 40.829 30.09 37.1931l-.1445 4.2408c-2.1685.29-22.807 7.92-22.956-18.657l-.056-2.3759c0-6.2578.05-8.4823 2.8838-11.611C13.3831 4.8527 24 5.3547 24 5.3547s10.617-.502 14.182 3.4353c2.8336 3.129 2.8838 5.3535 2.8838 11.611"/><path d="M24 23.3125V17.3351a4.6542 4.6542.0 00-4.6543-4.6542h0a4.6542 4.6542.0 00-4.6542 4.6542v9.6463"/><path d="M24 17.3351a4.6542 4.6542.0 014.6543-4.6542h0a4.6542 4.6542.0 014.6542 4.6542v9.6463"/></svg>
+</a><a href=https://instagram.com/snowme34 aria-label=Instagram target=_blank rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+</a><a href=/index.xml aria-label=RSS><svg viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11a9 9 0 019 9"/><path d="M4 4a16 16 0 0116 16"/><circle cx="5" cy="19" r="1"/></svg></a></div></div></div></aside><main class=main-content><article class=post lang=en><header class=post-header><h1 class=post-title>K3s Cluster in Docker-Compose Running PHP Nginx</h1><div class=post-meta><span class=post-meta__item><svg viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+<time datetime=2020-01-04>January 4, 2020</time>
+</span><span class=post-meta__item><svg viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 012-2h5l2 2h7a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
+<a href=/categories/notes/>Notes</a>
+</span><span class=post-meta__item><svg viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 012-2h5l2 2h7a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
+<a href=/categories/web-hosting/>Web-Hosting</a>
+</span><span class="post-meta__item post-meta__item--tags"><svg viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41 11 23l-9-9V4h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+<span class=post-meta__links><a href=/tags/web-hosting/ class=tag>Web-Hosting</a>, <a href=/tags/tutorial/ class=tag>Tutorial</a>, <a href=/tags/kubernetes/ class=tag>Kubernetes</a>, <a href=/tags/container/ class=tag>Container</a></span></span></div></header><div class=post-content><p>Run a K3s cluster in docker-compose with PHP + Nginx on 1 Gb, 1 vCPU server.</p><p>If anything goes wrong: read documents; check if the versions match (things are changing every day)</p><p>At the end of this page includes a list of links used as reference when writing.</p><h1 id=table-of-content>Table of Content</h1><ul><li><a href=#table-of-content>Table of Content</a></li><li><a href=#environment>Environment</a></li><li><a href=#prerequisites>Prerequisites</a></li><li><a href=#set-up-directory>Set Up Directory</a></li><li><a href=#launch-the-cluster-using-docker-compose>Launch the Cluster using Docker-Compose</a></li><li><a href=#talk-to-the-cluster>Talk to the Cluster</a></li><li><a href=#create-cluster-configs>Create Cluster Configs</a><ul><li><a href=#ssl-key>SSL Key</a></li><li><a href=#nginx-snippets>Nginx Snippets</a></li><li><a href=#nginx-site>Nginx Site</a></li><li><a href=#php-code>PHP code</a></li><li><a href=#php-resources>PHP Resources</a></li><li><a href=#nginx-resources>Nginx Resources</a></li></ul></li><li><a href=#config-and-run-the-cluster>Config and Run the Cluster</a></li><li><a href=#result>Result</a></li><li><a href=#stop-and-clean-up>Stop and Clean up</a></li><li><a href=#conclusion-and-thoughts>Conclusion and Thoughts</a></li><li><a href=#future-works>Future Works</a></li><li><a href=#reference>Reference</a></li></ul><h1 id=environment>Environment</h1><ul><li>1 GB Memory</li><li>1 vCPU</li><li>25 GB SSD</li><li>Debian 10.2 on Digital Ocean Droplet</li></ul><h1 id=prerequisites>Prerequisites</h1><ul><li>docker</li><li>docker-compose</li><li>a domain if wish to use https (and certificates)</li></ul><p>Try this to set up but it&rsquo;s more stable to use <code>iptables</code> at this moment (01/04/2020):</p><p><a href=https://docs.snowme34.com/en/latest/reference/devops/set-up-debian-10-server-on-digital-ocean.html>Set Up Debian 10 Server on Digital Ocean</a></p><h1 id=set-up-directory>Set Up Directory</h1><p>Feel free to choose any work directory, but for the purpose of simplicity,
+a directory owned by a non-root user in the root directory (<code>/</code>) will be used
+for this task.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>sudo mkdir -v /docker/
+</span></span><span class=line><span class=cl><span class=c1># replace with your non-root user name and group</span>
+</span></span><span class=line><span class=cl><span class=c1># (default group name is the same as the user name)</span>
+</span></span><span class=line><span class=cl>sudo chown __NAME__:__GROUP__ /docker/
+</span></span></code></pre></div><p>To make it easier to manage and run scripts, create a <code>bin</code> directory</p><ul><li>here it is under <code>/docker/</code></li><li>alternatively, put it under <code>~/</code>, some distribution will automatically append it to <code>$PATH</code><ul><li>(<code>$PATH</code> is a list of directories that the shell will use to look for commands/executables)</li></ul></li><li>editing the <code>$PATH</code> variable is optional<ul><li>it makes calling the script the same as calling normal commands</li></ul></li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>mkdir -v /docker/bin/
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># pre-pend it to PATH, making the search end earlier</span>
+</span></span><span class=line><span class=cl><span class=nb>echo</span> <span class=s2>&#34;PATH=/docker/bin:</span><span class=nv>$PATH</span><span class=s2>&#34;</span> &gt;&gt; ~/.bashrc
+</span></span><span class=line><span class=cl><span class=nb>source</span> ~/.bashrc
+</span></span></code></pre></div><p>It doesn&rsquo;t hurt to create several sub-directories for:</p><ul><li>Kubernetes resource yaml files</li><li>volumes to mount</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>mkdir -v /docker/k3s
+</span></span><span class=line><span class=cl>mkdir -v /docker/kube
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># this directory holds the PHP code, i.e. the index.php</span>
+</span></span><span class=line><span class=cl><span class=c1># explained later</span>
+</span></span><span class=line><span class=cl>mkdir -v /docker/www
+</span></span></code></pre></div><h1 id=launch-the-cluster-using-docker-compose>Launch the Cluster using Docker-Compose</h1><p>As easy as one simple docker-compile file from <a href=https://github.com/rancher/k3s/blob/master/docker-compose.yml>k3s official repo</a></p><p>Modifications:</p><ul><li>rename services</li><li>disable <code>traefik</code> by <code>--no-deploy traefik</code></li><li>mount directory with kubeconfig to host&rsquo;s <code>./k3s</code> (created above)</li><li>mount php-code directory to container&rsquo;s <code>/var/www</code></li><li>open 80 and 443 (http/https) port for agents</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=c># to run define K3S_TOKEN, K3S_VERSION is optional, eg:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c>#   K3S_TOKEN=${RANDOM}${RANDOM}${RANDOM} docker-compose up</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>version</span><span class=p>:</span><span class=w> </span><span class=s1>&#39;3&#39;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>services</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>k3s-server</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>image</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;rancher/k3s:${K3S_VERSION:-latest}&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>command</span><span class=p>:</span><span class=w> </span><span class=l>server --no-deploy traefik</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>tmpfs</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span>- <span class=l>/run</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span>- <span class=l>/var/run</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>privileged</span><span class=p>:</span><span class=w> </span><span class=kc>true</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>environment</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span>- <span class=l>K3S_TOKEN=${K3S_TOKEN:?err}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span>- <span class=l>K3S_KUBECONFIG_OUTPUT=/output/kubeconfig.yaml</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span>- <span class=l>K3S_KUBECONFIG_MODE=666</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>volumes</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span>- <span class=l>k3s-server:/var/lib/rancher/k3s</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c># This is just so that we get the kubeconfig file out</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span>- <span class=l>./k3s:/output</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span>- <span class=l>/docker/www:/var/www</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>ports</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span>- <span class=m>6443</span><span class=p>:</span><span class=m>6443</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>k3s-agent</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>image</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;rancher/k3s:${K3S_VERSION:-latest}&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>tmpfs</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span>- <span class=l>/run</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span>- <span class=l>/var/run</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>privileged</span><span class=p>:</span><span class=w> </span><span class=kc>true</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>environment</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span>- <span class=l>K3S_URL=https://k3s-server:6443</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span>- <span class=l>K3S_TOKEN=${K3S_TOKEN:?err}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>volumes</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span>- <span class=l>/docker/www:/var/www</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>ports</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span>- <span class=m>80</span><span class=p>:</span><span class=m>80</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span>- <span class=m>443</span><span class=p>:</span><span class=m>443</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>volumes</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>k3s-server</span><span class=p>:</span><span class=w> </span>{}<span class=w>
+</span></span></span></code></pre></div><p>Let&rsquo;s create a script to run it:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>touch /docker/bin/k3s-up
+</span></span><span class=line><span class=cl>chmod u+x /docker/bin/k3s-up
+</span></span></code></pre></div><p>Inside the up script:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=cp>#!/bin/bash
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=c1># feel free to change this</span>
+</span></span><span class=line><span class=cl><span class=nb>export</span> <span class=nv>K3S_TOKEN</span><span class=o>=</span><span class=si>${</span><span class=nv>RANDOM</span><span class=si>}${</span><span class=nv>RANDOM</span><span class=si>}${</span><span class=nv>RANDOM</span><span class=si>}${</span><span class=nv>RANDOM</span><span class=si>}${</span><span class=nv>RANDOM</span><span class=si>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>echo</span> <span class=s2>&#34;K3S_TOKEN: </span><span class=si>${</span><span class=nv>K3S_TOKEN</span><span class=si>}</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl><span class=c1># might want to store token somewhere, e.g.</span>
+</span></span><span class=line><span class=cl><span class=c1>#echo ${K3S_TOKEN} &gt; ~/.token/K3S_TOKEN</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>docker-compose -f /docker/docker-compose.yml up -d --scale k3s-agent<span class=o>=</span><span class=s2>&#34;</span><span class=si>${</span><span class=nv>1</span><span class=k>:-</span><span class=nv>1</span><span class=si>}</span><span class=s2>&#34;</span>
+</span></span></code></pre></div><p>Now we just need to run this script</p><ul><li>since the directory is in <code>$PATH</code>, we can call it directly</li><li>it creates 1 agent by default, can change it by providing command line argument</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>k3s-up    <span class=c1># spawn 1 agents</span>
+</span></span><span class=line><span class=cl><span class=c1>#k3s-up 3 # spawn 3 agents</span>
+</span></span></code></pre></div><p>Due to extreme memory constrain, let&rsquo;s begin with 1 agent</p><h1 id=talk-to-the-cluster>Talk to the Cluster</h1><p>Now the k3s cluster is up and running.</p><p>The system might go through a short thrashing period but it will settle down soon (tested on real machine).</p><p>It&rsquo;s time to <code>kubectl</code>. Let&rsquo;s use the <code>$KUBECONFIG</code> variable to simplify things:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nb>export</span> <span class=nv>KUBECONFIG</span><span class=o>=</span>/docker/k3s/kubeconfig.yaml
+</span></span></code></pre></div><p>Might as well add this line to bashrc (optional):</p><ul><li>so that current user&rsquo;s shell will automatically set KUBECONFIG variable</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nb>echo</span> <span class=s2>&#34;export KUBECONFIG=/docker/k3s/kubeconfig.yaml&#34;</span> &gt;&gt; ~/.bashrc
+</span></span></code></pre></div><p>Test connection</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>kubectl get nodes
+</span></span><span class=line><span class=cl>kubectl get pods --all-namespaces
+</span></span></code></pre></div><p>If not working, consult <code>docker</code> and other logs</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>docker ps
+</span></span><span class=line><span class=cl>docker logs
+</span></span><span class=line><span class=cl>...
+</span></span></code></pre></div><h1 id=create-cluster-configs>Create Cluster Configs</h1><p>Attempts to use nginx ingress have been made in vain because of
+the limited resources.</p><p>We shall use our own nginx, plus <a href=https://rancher.com/docs/k3s/latest/en/networking/#service-load-balancer>load balancer service provided by <code>k3s</code></a> (good to be simple for simple tasks).</p><p>Start with the config maps:</p><ul><li>note: provided nginx configs may not suit every one&rsquo;s need</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>mkdir /docker/kube/config-nginx-key      <span class=c1># SSL key, if intend to use https</span>
+</span></span><span class=line><span class=cl>mkdir /docker/kube/config-nginx-sites    <span class=c1># nginx config for each site</span>
+</span></span><span class=line><span class=cl>mkdir /docker/kube/config-nginx-snippets <span class=c1># re-useable snippets</span>
+</span></span></code></pre></div><p>Let&rsquo;s go through each config file</p><ul><li><a href=https://www.digitalocean.com/community/tools/nginx>main reference</a> for nginx config</li></ul><h2 id=ssl-key>SSL Key</h2><p>(skip if using http)</p><p>Files in <code>/docker/kube/config-nginx-key</code>:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># SSL certificates</span>
+</span></span><span class=line><span class=cl>cert.pem
+</span></span><span class=line><span class=cl>cert.key
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Diffie-Hellman parameters</span>
+</span></span><span class=line><span class=cl><span class=c1># used by Nginx</span>
+</span></span><span class=line><span class=cl><span class=c1># https://wiki.openssl.org/index.php/Diffie-Hellman_parameters</span>
+</span></span><span class=line><span class=cl>dhparam.pem <span class=c1># openssl dhparam -out ./dhparam.pem 4096</span>
+</span></span></code></pre></div><p>For security reasons, my own SSL certificates will not be included here.</p><ul><li>Because I use Cloudflare, my cluster uses <a href=https://support.cloudflare.com/hc/en-us/articles/115000479507-Managing-Cloudflare-Origin-CA-certificates>Cloudflare Origin CA certificates</a></li><li>Also it does not require complex verification, renewal steps etc.</li><li>If not suitable, might consider <a href=https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nginx-ingress-with-cert-manager-on-digitalocean-kubernetes#step-4-%E2%80%94-installing-and-configuring-cert-manager>a cert manager</a> (linked article uses ingress). That is beyond of the scope of this article</li></ul><h2 id=nginx-snippets>Nginx Snippets</h2><p>Files in <code>/docker/kube/config-nginx-snippets</code>:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>ssl-some.host.conf
+</span></span><span class=line><span class=cl>ssl-params.conf
+</span></span><span class=line><span class=cl>security.conf
+</span></span></code></pre></div><p>ssl-some.host.conf</p><ul><li>just telling nginx which certificates to use</li></ul><pre tabindex=0><code class=language-conf data-lang=conf>ssl_certificate     /etc/nginx/ssl-key/cert.pem;
+ssl_certificate_key /etc/nginx/ssl-key/cert.key;
+</code></pre><p>ssl-params.conf</p><ul><li><a href=https://cipherli.st/>cipherli.st</a></li><li><a href=https://raymii.org/s/tutorials/Strong_SSL_Security_On_nginx.html>String SSL Security On Nginx</a></li><li><a href=https://wiki.mozilla.org/Security/Server_Side_TLS>Security/Server Side TLS - MozillaWiki</a></li><li>also if you are using Cloudflare like I do, end-users may see different headers etc.<ul><li>since clients are talking to Cloudflare, not the host machine directly in general cases</li></ul></li></ul><pre tabindex=0><code class=language-conf data-lang=conf># SSL
+ssl_session_timeout 1d;
+ssl_session_cache shared:SSL:10m;
+ssl_session_tickets off;
+
+# Diffie-Hellman parameter for DHE ciphersuites
+ssl_dhparam /etc/nginx/ssl-key/dhparam.pem;
+
+# Mozilla Intermediate configuration
+ssl_protocols TLSv1.2 TLSv1.3;
+ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384;
+
+# OCSP Stapling
+ssl_stapling on;
+ssl_stapling_verify on;
+resolver 1.1.1.1 1.0.0.1 8.8.8.8 8.8.4.4 208.67.222.222 208.67.220.220 valid=60s;
+resolver_timeout 2s;
+</code></pre><p>security.conf</p><pre tabindex=0><code class=language-conf data-lang=conf># security headers
+add_header X-Frame-Options &#34;SAMEORIGIN&#34; always;
+add_header X-XSS-Protection &#34;1; mode=block&#34; always;
+add_header X-Content-Type-Options &#34;nosniff&#34; always;
+add_header Referrer-Policy &#34;no-referrer-when-downgrade&#34; always;
+add_header Content-Security-Policy &#34;default-src &#39;self&#39; http: https: data: blob: &#39;unsafe-inline&#39;&#34; always;
+add_header Strict-Transport-Security &#34;max-age=31536000; includeSubDomains; preload&#34; always;
+
+# . files
+location ~ /\.(?!well-known) {
+	deny all;
+}
+
+## misc
+## not for security but included here for simplicity
+
+# favicon.ico
+location = /favicon.ico {
+	log_not_found off;
+	access_log off;
+}
+
+# robots.txt
+location = /robots.txt {
+	log_not_found off;
+	access_log off;
+}
+</code></pre><h2 id=nginx-site>Nginx Site</h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>/docker/kube/config-nginx-sites/php.conf
+</span></span></code></pre></div><p>Heavily inspired by:</p><ul><li><a href=https://www.nginx.com/resources/wiki/start/topics/examples/phpfcgi/>PHP FastCGI Example</a></li><li><a href=https://www.digitalocean.com/community/tutorials/how-to-deploy-a-php-application-with-kubernetes-on-ubuntu-18-04#step-5-%E2%80%94-creating-the-nginx-deployment>How To Deploy a PHP Application with Kubernetes on Ubuntu 18.04 | DigitalOcean</a></li></ul><p>Choose one of the below:</p><ul><li>http</li></ul><pre tabindex=0><code class=language-conf data-lang=conf>server {
+  index index.php index.html;
+  root /var/www;
+
+  location / {
+      try_files $uri $uri/ /index.php?$query_string;
+  }
+
+  location ~ \.php$ {
+      try_files $uri =404;
+      fastcgi_split_path_info ^(.+\.php)(/.+)$;
+      fastcgi_pass kube-php:9000;
+      fastcgi_index index.php;
+      include fastcgi_params;
+      fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+      fastcgi_param PATH_INFO $fastcgi_path_info;
+    }
+}
+</code></pre><ul><li>https</li></ul><pre tabindex=0><code class=language-conf data-lang=conf>server {
+  listen 443 ssl http2;
+  listen [::]:443 ssl http2;
+
+  include /etc/nginx/snippets/ssl-some.host.conf;
+  include /etc/nginx/snippets/ssl-params.conf;
+
+  root /var/www;
+  index  index.html  index.php;
+
+  ### change to your own host name ###
+  server_name some.host;
+
+  include /etc/nginx/snippets/security.conf;
+
+  location ~ [^/]\.php(/|$) {
+    fastcgi_split_path_info ^(.+?\.php)(/.*)$;
+    if (!-f $document_root$fastcgi_script_name) {
+        return 404;
+    }
+    fastcgi_param HTTP_PROXY &#34;&#34;;
+    fastcgi_pass kube-php:9000;
+    fastcgi_index index.php;
+    include fastcgi_params;
+    fastcgi_param  SCRIPT_FILENAME   $document_root$fastcgi_script_name;
+  }
+}
+</code></pre><hr><p>Back to our kubernetes cluster, now we need to create:</p><ul><li>PHP code</li><li>PHP service</li><li>PHP deployment</li><li>nginx service LoadBalancer</li><li>nginx deployment</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>mkdir -v /docker/kube/objects
+</span></span></code></pre></div><p>Will use one file for related resources</p><h2 id=php-code>PHP code</h2><p>For simplicity, the PHP code is directly put into <code>/docker/www</code></p><p>Sample PHP file, put to <code>/docker/www/index.php</code>:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>&lt;?</span><span class=nx>php</span>
+</span></span><span class=line><span class=cl><span class=k>echo</span> <span class=nx>phpinfo</span><span class=p>();</span>
+</span></span></code></pre></div><h2 id=php-resources>PHP Resources</h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>editor /docker/kube/objects/php.yaml
+</span></span></code></pre></div><p>Inside the yaml:</p><ul><li>it exposes port 9000 via ClusterIP (default networking for service) for php-fpm</li><li>php:7-fpm image is used</li><li>the php code directory mounted earlier, <code>/var/www</code>, is mounted as a <code>hostPath</code> volume<ul><li>generally <strong>not</strong> something desired in production</li><li>A possibly related <a href=https://stackoverflow.com/questions/46738296/multiple-kubernetes-pods-sharing-the-same-host-path-pvc-will-duplicate-output>link</a> and <a href=https://github.com/kubernetes/community/blob/master/contributors/design-proposals/scheduling/resources.md>another</a>.</li><li>might consider a kubernetes init container to set up the code etc.</li></ul></li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=nt>apiVersion</span><span class=p>:</span><span class=w> </span><span class=l>v1</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>kind</span><span class=p>:</span><span class=w> </span><span class=l>Service</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>metadata</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>kube-php</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>labels</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>tier</span><span class=p>:</span><span class=w> </span><span class=l>backend</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spec</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>ports</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>- <span class=nt>protocol</span><span class=p>:</span><span class=w> </span><span class=l>TCP</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>port</span><span class=p>:</span><span class=w> </span><span class=m>9000</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>selector</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>app</span><span class=p>:</span><span class=w> </span><span class=l>kube-php</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>tier</span><span class=p>:</span><span class=w> </span><span class=l>backend</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nn>---</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>apiVersion</span><span class=p>:</span><span class=w> </span><span class=l>apps/v1</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>kind</span><span class=p>:</span><span class=w> </span><span class=l>Deployment</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>metadata</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>kube-php</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>labels</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>tier</span><span class=p>:</span><span class=w> </span><span class=l>backend</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spec</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>replicas</span><span class=p>:</span><span class=w> </span><span class=m>1</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>selector</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>matchLabels</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>app</span><span class=p>:</span><span class=w> </span><span class=l>kube-php</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>tier</span><span class=p>:</span><span class=w> </span><span class=l>backend</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>template</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>metadata</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>labels</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>app</span><span class=p>:</span><span class=w> </span><span class=l>kube-php</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>tier</span><span class=p>:</span><span class=w> </span><span class=l>backend</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>spec</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>containers</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>php</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>image</span><span class=p>:</span><span class=w> </span><span class=l>php:7-fpm</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>volumeMounts</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>www</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>mountPath</span><span class=p>:</span><span class=w> </span><span class=l>/var/www</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>volumes</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>www</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>hostPath</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>path</span><span class=p>:</span><span class=w> </span><span class=l>/var/www</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>type</span><span class=p>:</span><span class=w> </span><span class=l>Directory</span><span class=w>
+</span></span></span></code></pre></div><h2 id=nginx-resources>Nginx Resources</h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>editor /docker/kube/objects/nginx.yaml
+</span></span></code></pre></div><p>Inside the yaml:</p><ul><li>a LoadBalancer service is created with port 80 and 443<ul><li>thanks to k3s&rsquo;s networking, normally a bare-mental kubernetes cannot use LoadBalancer services</li><li>(<a href=https://stackoverflow.com/questions/45079988/ingress-vs-load-balancer>&ldquo;LoadBalancer services &mldr; points to external load balancers that are NOT in your cluster&rdquo;</a>)</li></ul></li><li>a deployment is created using nginx:1.16 image<ul><li>a naive and simple approach to test the config online is included</li><li>the config maps to be created are mounted as directories</li></ul></li><li>about nginx conf:<ul><li>nginx will automatically load conf in <code>/etc/nginx/conf.d</code></li><li>for our case, our php.conf will include all other config files</li></ul></li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=nt>apiVersion</span><span class=p>:</span><span class=w> </span><span class=l>v1</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>kind</span><span class=p>:</span><span class=w> </span><span class=l>Service</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>metadata</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>kube-nginx</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>labels</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>tier</span><span class=p>:</span><span class=w> </span><span class=l>backend</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spec</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>type</span><span class=p>:</span><span class=w> </span><span class=l>LoadBalancer</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>ports</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>- <span class=nt>protocol</span><span class=p>:</span><span class=w> </span><span class=l>TCP</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>port</span><span class=p>:</span><span class=w> </span><span class=m>80</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>http</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>- <span class=nt>protocol</span><span class=p>:</span><span class=w> </span><span class=l>TCP</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>port</span><span class=p>:</span><span class=w> </span><span class=m>443</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>https</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>selector</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>app</span><span class=p>:</span><span class=w> </span><span class=l>kube-nginx</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>tier</span><span class=p>:</span><span class=w> </span><span class=l>backend</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nn>---</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>apiVersion</span><span class=p>:</span><span class=w> </span><span class=l>apps/v1</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>kind</span><span class=p>:</span><span class=w> </span><span class=l>Deployment</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>metadata</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>kube-nginx</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>labels</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>tier</span><span class=p>:</span><span class=w> </span><span class=l>backend</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spec</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>replicas</span><span class=p>:</span><span class=w> </span><span class=m>1</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>selector</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>matchLabels</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>app</span><span class=p>:</span><span class=w> </span><span class=l>kube-nginx</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>tier</span><span class=p>:</span><span class=w> </span><span class=l>backend</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>template</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>metadata</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>labels</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>app</span><span class=p>:</span><span class=w> </span><span class=l>kube-nginx</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>tier</span><span class=p>:</span><span class=w> </span><span class=l>backend</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>spec</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>containers</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>nginx</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>image</span><span class=p>:</span><span class=w> </span><span class=l>nginx:1.16</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=c>## uncomment this to test the nginx config</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=c>## use something like `kubectl logs kube-nginx-...` to see the output</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=c>## use `kubectl delete deployment ...` to remove the test deployment</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=c>#command: [&#34;/bin/bash&#34;,&#34;-c&#34;]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=c>#args: [&#34;echo testing-nginx-conf; nginx -t; sleep 10h&#34;]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>ports</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span>- <span class=nt>containerPort</span><span class=p>:</span><span class=w> </span><span class=m>80</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span>- <span class=nt>containerPort</span><span class=p>:</span><span class=w> </span><span class=m>443</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>volumeMounts</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>nginx-key</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>mountPath</span><span class=p>:</span><span class=w> </span><span class=l>/etc/nginx/ssl-key</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>nginx-snippets</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>mountPath</span><span class=p>:</span><span class=w> </span><span class=l>/etc/nginx/snippets</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>nginx-sites</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>mountPath</span><span class=p>:</span><span class=w> </span><span class=l>/etc/nginx/conf.d</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>www</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>mountPath</span><span class=p>:</span><span class=w> </span><span class=l>/var/www</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>volumes</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>nginx-key</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>configMap</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>config-nginx-key</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>nginx-snippets</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>configMap</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>config-nginx-snippets</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>nginx-sites</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>configMap</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>config-nginx-sites</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>www</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>hostPath</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>path</span><span class=p>:</span><span class=w> </span><span class=l>/var/www</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>type</span><span class=p>:</span><span class=w> </span><span class=l>Directory</span><span class=w>
+</span></span></span></code></pre></div><h1 id=config-and-run-the-cluster>Config and Run the Cluster</h1><p>Now we have both the configs and the Kubernetes resources files ready.</p><p>Just a short script will do all the setup</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>touch /docker/bin/k3s-setup
+</span></span><span class=line><span class=cl>chmod u+x /docker/bin/k3s-setup
+</span></span></code></pre></div><p>Inside the setup script</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=cp>#!/bin/bash
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=c1># ensure the config works</span>
+</span></span><span class=line><span class=cl><span class=nb>export</span> <span class=nv>KUBECONFIG</span><span class=o>=</span>/docker/k3s/kubeconfig.yaml
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>set</span> -e
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># test connection (optional)</span>
+</span></span><span class=line><span class=cl>kubectl get node
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># nginx config</span>
+</span></span><span class=line><span class=cl>kubectl create configmap config-nginx-key      --from-file<span class=o>=</span>/docker/kube/config_nginx-key
+</span></span><span class=line><span class=cl>kubectl create configmap config-nginx-snippets --from-file<span class=o>=</span>/docker/kube/config_nginx-snippets
+</span></span><span class=line><span class=cl>kubectl create configmap config-nginx-sites    --from-file<span class=o>=</span>/docker/kube/config_nginx-sites
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># apply</span>
+</span></span><span class=line><span class=cl>kubectl apply -f /docker/kube/objects
+</span></span></code></pre></div><p>Run the script</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>k3s-setup
+</span></span></code></pre></div><h1 id=result>Result</h1><p>The whole server might suffer from a short period of thrashing after starting everything.</p><p>Assume all firewall, certificates and so forth all set up, go to <code>http://host-ip</code> or <code>https://some.host</code> (depend on your choice).</p><p>The PHP application will show up.</p><p>Each access to my host leads to around 40K <a href=https://en.wikipedia.org/wiki/Context_switch>context switches</a>.</p><h1 id=stop-and-clean-up>Stop and Clean up</h1><p>If encounter errors in the previous steps, or need a graceful shutdown,
+here is a nothing-left-behind clean up script.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>touch /docker/bin/k3s-down
+</span></span><span class=line><span class=cl>chmod u+x /docker/bin/k3s-down
+</span></span></code></pre></div><p>Inside the down script:</p><ul><li>shut down via docker-compose</li><li>remove the used master server volume</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># the existence of this variable is required by the docker-compose file</span>
+</span></span><span class=line><span class=cl><span class=nb>export</span> <span class=nv>K3S_TOKEN</span><span class=o>=</span>NOTHING
+</span></span><span class=line><span class=cl><span class=c1># if you want the original token, might consider storing it somewhere, e.g.</span>
+</span></span><span class=line><span class=cl><span class=c1>#export K3S_TOKEN=$(cat ~/.token/K3S_TOKEN)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>docker-compose -f /docker/docker-compose.yml down -v
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># optional, delete the no-longer-valid kubeconfig</span>
+</span></span><span class=line><span class=cl>rm -f /docker/k3s/kubeconfig.yaml
+</span></span><span class=line><span class=cl><span class=c1>#might remove the saved K3S_TOKEN as well</span>
+</span></span></code></pre></div><h1 id=conclusion-and-thoughts>Conclusion and Thoughts</h1><p>The purpose of Kubernetes is not, clearly, doing things like this.</p><p>But the k3s cluster created is perfect for dev and testing, especially for single-machine.
+And it&rsquo;s fun to run a fully-functional Kubernetes on the cutest VPS!</p><h1 id=future-works>Future Works</h1><ul><li>make the cluster persistent<ul><li>currently cleaning everything up</li><li>might use <code>docker-compose stop</code>, but ideally only the master data is needed</li><li>potentially related: <a href=https://github.com/rancher/k3s/issues/927>How to make a full backup of k3s server&rsquo;s data? · Issue #927 · rancher/k3s</a></li></ul></li><li>use secrets</li></ul><h1 id=reference>Reference</h1><p>Some of documents/tutorials are not updated or no longer working.</p><p>Tutorials</p><ul><li><a href=https://www.digitalocean.com/community/tutorials/how-to-deploy-a-php-application-with-kubernetes-on-ubuntu-18-04>How To Deploy a PHP Application with Kubernetes on Ubuntu 18.04 | DigitalOcean</a></li><li><a href=https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nginx-ingress-with-cert-manager-on-digitalocean-kubernetes>How to Set Up an Nginx Ingress with Cert-Manager on DigitalOcean Kubernetes | DigitalOcean</a></li><li><a href=https://qiita.com/Tei1988/items/0ef7dfba11497696bf56>docker-composeでK3sを試してみた - Qiita</a></li><li><a href=https://www.redpill-linpro.com/techblog/2019/04/04/kubernetes-setup.html>Single node Kubernetes setup – /techblog</a></li><li><a href=https://www.digitalocean.com/community/tutorials/how-to-create-a-kubernetes-cluster-using-kubeadm-on-ubuntu-18-04>How To Create a Kubernetes Cluster Using Kubeadm on Ubuntu 18.04 | DigitalOcean</a></li></ul><p>K3s</p><ul><li><a href=https://rancher.com/docs/k3s/latest/en/installation/install-options/>Installation Options</a></li><li><a href=https://rancher.com/docs/k3s/latest/en/networking/>Networking</a></li><li><a href=https://rancher.com/docs/k3s/latest/en/advanced/>Advanced Options and Configuration</a></li><li><a href=https://rancher.com/docs/k3s/latest/en/storage/>Volumes and Storage</a></li><li><a href=https://github.com/rancher/local-path-provisioner/blob/master/README.md#usage>local-path-provisioner/README.md at master · rancher/local-path-provisioner</a></li></ul><p>Kubernetes</p><ul><li><a href=https://www.reddit.com/r/kubernetes/comments/be0415/k3s_minikube_or_microk8s/>K3s, minikube or microk8s? : kubernetes</a></li><li><a href=https://kubectl.docs.kubernetes.io/pages/kubectl_book/resources_and_controllers.html>Resources + Controllers Overview · The Kubectl Book</a></li><li><a href=https://kubernetes.io/docs/tasks/debug-application-cluster/debug-pod-replication-controller/>Debug Pod Replication Controller - Kubernetes</a></li><li><a href=https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/>Creating a single control-plane cluster with kubeadm - Kubernetes</a></li></ul><p>Kubernetes Volumes</p><ul><li><a href=https://kubernetes.io/docs/concepts/storage/volumes/#hostpath>Volumes - Kubernetes</a> hostPath</li><li><a href=https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#add-configmap-data-to-a-volume>Configure a Pod to Use a ConfigMap - Kubernetes</a></li><li><a href=https://kubernetes.io/docs/concepts/storage/persistent-volumes/#claims-as-volumes>Persistent Volumes - Kubernetes</a></li><li><a href=https://kubernetes.io/blog/2019/04/04/kubernetes-1.14-local-persistent-volumes-ga/>Kubernetes 1.14: Local Persistent Volumes GA - Kubernetes</a></li><li><a href=https://kubernetes.io/docs/concepts/storage/storage-classes/#local>Storage Classes - Kubernetes</a> local</li><li><a href=https://github.com/kubernetes/community/blob/master/contributors/design-proposals/scheduling/resources.md>community/resources.md at master · kubernetes/community</a></li></ul><p>Kubernetes Networking</p><ul><li><a href=https://stackoverflow.com/questions/45079988/ingress-vs-load-balancer>Ingress vs Load Balancer</a></li><li><a href=https://kubernetes.io/docs/concepts/services-networking/ingress/#alternatives>Ingress - Kubernetes</a></li><li><a href=https://kubernetes.github.io/ingress-nginx/deploy/baremetal/>Bare-metal considerations - NGINX Ingress Controller</a></li><li><a href=https://kubernetes.github.io/ingress-nginx/user-guide/fcgi-services/>Exposing FCGI services - NGINX Ingress Controller</a></li><li><a href=https://stackoverflow.com/questions/52041010/nginx-php-fpm-multiple-application-k8s-ingress>symfony - NGINX - PHP-FPM multiple application K8s/Ingress - Stack Overflow</a></li><li><a href=https://github.com/kubernetes/ingress-nginx/tree/master/docs/examples/multi-tls>ingress-nginx/docs/examples/multi-tls at master · kubernetes/ingress-nginx</a></li></ul><p>Nginx config</p><ul><li><a href=https://raymii.org/s/tutorials/Strong_SSL_Security_On_nginx.html>Strong SSL Security on nginx - Raymii.org</a></li><li><a href=https://github.com/h5bp/server-configs-nginx>h5bp/server-configs-nginx: Nginx HTTP server boilerplate configs</a></li><li><a href=https://github.com/h5bp/server-configs-nginx/pull/190#issuecomment-367843852>Remove deprecated ciphers and protocols by aeris · Pull Request #190 · h5bp/server-configs-nginx</a></li><li><a href=https://github.com/roots/trellis/pull/1127>Use modern SSL config for Nginx by swalkinshaw · Pull Request #1127 · roots/trellis</a></li><li><a href=https://wiki.mozilla.org/Security/Server_Side_TLS>Security/Server Side TLS - MozillaWiki</a></li><li><a href=https://cryptcheck.fr/suite/>CryptCheck</a></li></ul></div><section class=comments-section><h2 class=comments-section__title>Comments</h2><script src=https://giscus.app/client.js data-repo=snowme34/blog.snowme34.com data-repo-id="MDEwOlJlcG9zaXRvcnkxMDYxMjIyMzc=" data-category=Announcements data-category-id=DIC_kwDOBlNL_c4C7DBo data-mapping=pathname data-strict=0 data-reactions-enabled=1 data-emit-metadata=0 data-input-position=bottom data-theme=preferred_color_scheme data-lang=en data-loading=lazy crossorigin=anonymous async></script></section></article><footer class=site-footer><p class=site-footer__meta>If you want to realize your deams, you have to let them go back to nothing first</p><p class=site-footer__meta>© 2026 snowme34</p><a class=cc-badge href=https://creativecommons.org/licenses/by-sa/4.0/ aria-label="CC BY-SA 4.0"><img src=https://i.creativecommons.org/l/by-sa/4.0/80x15.png alt="CC BY-SA 4.0"></a></footer></main><aside class=right-sidebar data-right-sidebar><div class=right-sidebar__backdrop data-right-sidebar-backdrop hidden></div><div class=right-sidebar__panel><div class=right-sidebar__inner><div class=right-sidebar__scroll data-sidebar-scroll><section class="sidebar-panel toc-panel"><h2 class=sidebar-panel__title>Table of Contents</h2><div class=toc-content data-toc><nav id=TableOfContents><ul><li><a href=#ssl-key>SSL Key</a></li><li><a href=#nginx-snippets>Nginx Snippets</a></li><li><a href=#nginx-site>Nginx Site</a></li><li><a href=#php-code>PHP code</a></li><li><a href=#php-resources>PHP Resources</a></li><li><a href=#nginx-resources>Nginx Resources</a></li></ul></nav></div></section></div></div><div class=right-sidebar__controls><button class=right-sidebar-toggle type=button aria-label="Toggle right sidebar" aria-expanded=false data-right-sidebar-toggle>
+<span class="right-sidebar-toggle__icon right-sidebar-toggle__icon--closed" aria-hidden=true><svg viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+</span><span class="right-sidebar-toggle__icon right-sidebar-toggle__icon--open" aria-hidden=true><svg viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+</span></button>
+<button class=color-scheme-toggle type=button role=switch aria-label="Toggle dark mode" aria-checked=false data-color-scheme-toggle>
+<span class="color-scheme-toggle__icon color-scheme-toggle__icon--sun" aria-hidden=true>☀</span>
+<span class=color-scheme-toggle__track><span class=color-scheme-toggle__thumb></span></span>
+<span class="color-scheme-toggle__icon color-scheme-toggle__icon--moon" aria-hidden=true>☾</span></button></div></div></aside></div><div class=search-modal hidden data-search-modal data-search-index-url=/index.json><div class=search-modal__backdrop data-search-close></div><div class=search-modal__dialog role=dialog aria-modal=true aria-label=Search><div class=search-modal__header><input type=text class=search-modal__input placeholder=Search... aria-label=Search data-search-input>
+<button type=button class=search-modal__close aria-label="Close search" data-search-close>×</button></div><div class=search-results data-search-results></div></div></div><script src=/js/search.js defer></script><script src=/js/main.js defer></script></body></html>
